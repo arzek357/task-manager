@@ -7,27 +7,25 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
-@Table(name = "projects")
+@Table(name = "notifications")
 @NoArgsConstructor
-public class Project {
+public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
-    @Column(name = "description")
-    private String description;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Task task;
 
-    @Column(name = "creator_id")
-    private Long creator_id;
+    @Column(name = "text")
+    private String text;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -36,7 +34,4 @@ public class Project {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @ManyToMany(mappedBy = "projects")
-    private List<User> users = new ArrayList<>();
 }
