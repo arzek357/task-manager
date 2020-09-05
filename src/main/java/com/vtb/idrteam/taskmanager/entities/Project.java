@@ -27,7 +27,7 @@ public class Project {
     private String description;
 
     @Column(name = "creator_id")
-    private Long creator_id;
+    private Long creatorId;
 
     @CreationTimestamp
     @Column(name = "created_at")
