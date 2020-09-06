@@ -15,7 +15,7 @@ public class ProjectFilter {
 
         if (params.containsKey("user_id") && !params.get("user_id").get(0).isEmpty()){
             long userId = Long.parseLong(params.get("user_id").get(0));
-            spec.and(ProjectSpecifications.userEquals(userId));
+            spec.and(ProjectSpecifications.userNameEquals(userId));
         }
     }
 }

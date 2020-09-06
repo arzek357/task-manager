@@ -1,18 +1,17 @@
 package com.vtb.idrteam.taskmanager.controllers;
 
 import com.vtb.idrteam.taskmanager.entities.Project;
+import com.vtb.idrteam.taskmanager.entities.dtos.ProjectDto;
 import com.vtb.idrteam.taskmanager.services.ProjectService;
-import com.vtb.idrteam.taskmanager.utils.ProjectFilter;
+import com.vtb.idrteam.taskmanager.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.attribute.UserPrincipal;
+import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/projects")
@@ -20,16 +19,20 @@ import java.util.Map;
 @Slf4j
 public class ProjectsController {
     private ProjectService projectService;
+    private UserService userService;
 
     //    @GetMapping("/byuser/{id}")
     //    public List<Project> getAllProjects(@PathVariable Long id) {
     @GetMapping
-    public List<Project> getAllProjects(@RequestParam(name = "user_id", required = false) Long userId) {
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("user_id", userId.toString());
-        ProjectFilter projectFilter = new ProjectFilter(params);
+//    public List<Project> getAllProjects(@RequestParam(name = "user_id", required = false) Long userId) {
+    public List<ProjectDto> getAllProjects(Principal principal) {
+//        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+//        params.add("user_id", userId.toString());
+//        ProjectFilter projectFilter = new ProjectFilter(params);
+//        return projectService.findAll(projectFilter.getSpec());
 
-        return projectService.findAll(projectFilter.getSpec());
+        System.out.println(principal.getName());
+        return userService.findProjectsDtoByUsername(principal.getName());
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")

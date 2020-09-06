@@ -2,6 +2,7 @@ package com.vtb.idrteam.taskmanager.entities.bindtables;
 
 import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.User;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users_projects")
 @NoArgsConstructor
+@Data
 public class UserProject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
