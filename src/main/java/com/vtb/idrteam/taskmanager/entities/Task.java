@@ -2,7 +2,6 @@ package com.vtb.idrteam.taskmanager.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.aspectj.weaver.ast.Not;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -43,6 +42,9 @@ public class Task {
 
     @Column(name = "deadline_time")
     private LocalDateTime deadlineTime;
+
+    @Column(name = "creator_id")
+    private Long creatorId;
 
     @CreationTimestamp
     @Column(name = "created_at")
