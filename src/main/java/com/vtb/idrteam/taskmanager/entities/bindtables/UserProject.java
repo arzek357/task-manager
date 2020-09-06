@@ -23,4 +23,15 @@ public class UserProject {
 
     @Column(name = "is_creator")
     private Boolean isCreator;
+
+    public UserProject(User user, Project project, Boolean isCreator) {
+        this.user = user;
+        this.project = project;
+        this.isCreator = isCreator;
+    }
+
+    public UserProject(User user, Project project) {
+        this.user = user;
+        this.project = project;
+    }
 }

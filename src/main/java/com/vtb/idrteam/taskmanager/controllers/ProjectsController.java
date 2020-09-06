@@ -5,10 +5,12 @@ import com.vtb.idrteam.taskmanager.services.ProjectService;
 import com.vtb.idrteam.taskmanager.utils.ProjectFilter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 import java.util.Map;
 
@@ -28,5 +30,14 @@ public class ProjectsController {
         ProjectFilter projectFilter = new ProjectFilter(params);
 
         return projectService.findAll(projectFilter.getSpec());
+    }
+
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Project createNewProject(@RequestBody Project project, UserPrincipal principal) {
+        if (project.getId() != null) {
+            project.setId(null);
+        }
+        return projectService.createNewProject(project, principal.getName());
     }
 }
