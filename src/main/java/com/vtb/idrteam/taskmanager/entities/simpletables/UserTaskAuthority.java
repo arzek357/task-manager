@@ -1,4 +1,4 @@
-package com.vtb.idrteam.taskmanager.entities;
+package com.vtb.idrteam.taskmanager.entities.simpletables;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,7 @@
 package com.vtb.idrteam.taskmanager.entities;
 
+import com.vtb.idrteam.taskmanager.entities.bindtables.UserProject;
+import com.vtb.idrteam.taskmanager.entities.bindtables.UserTask;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -50,11 +52,19 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToMany
-    @JoinTable(name = "users_projects",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "project_id"))
-    private List<Project> projects;
+//    @ManyToMany
+//    @JoinTable(name = "users_projects",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "project_id"))
+//    private List<Project> projects;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private List<UserProject> userProjects = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "user",

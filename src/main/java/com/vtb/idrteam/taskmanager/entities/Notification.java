@@ -24,8 +24,8 @@ public class Notification {
     @ManyToOne(fetch = FetchType.LAZY)
     private Task task;
 
-    @Column(name = "text")
-    private String text;
+    @Column(name = "message")
+    private String message;
 
     @CreationTimestamp
     @Column(name = "created_at")

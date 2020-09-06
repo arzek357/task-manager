@@ -1,5 +1,6 @@
 package com.vtb.idrteam.taskmanager.entities;
 
+import com.vtb.idrteam.taskmanager.entities.bindtables.UserTask;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -43,8 +44,8 @@ public class Task {
     @Column(name = "deadline_time")
     private LocalDateTime deadlineTime;
 
-    @Column(name = "creator_id")
-    private Long creatorId;
+//    @Column(name = "creator_id")
+//    private Long creatorId;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -61,6 +62,15 @@ public class Task {
             fetch = FetchType.LAZY
     )
     private List<UserTask> userTasks = new ArrayList<>();
+
+//    @OneToMany(
+//            mappedBy = "task",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
+//            fetch = FetchType.LAZY
+//    )
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Project project;
 
     @OneToMany(
             mappedBy = "task",

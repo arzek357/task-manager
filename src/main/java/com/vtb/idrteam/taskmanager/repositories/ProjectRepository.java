@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProjectRepo extends JpaRepository<Project, Long>, JpaSpecificationExecutor<ProjectRepo> {
-    public List<Project> findByCreatorId(Long creatorId);
+public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpecificationExecutor<ProjectRepository> {
+//    public List<Project> findByCreatorId(Long creatorId);
 }

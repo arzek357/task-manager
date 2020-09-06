@@ -1,5 +1,8 @@
-package com.vtb.idrteam.taskmanager.entities;
+package com.vtb.idrteam.taskmanager.entities.bindtables;
 
+import com.vtb.idrteam.taskmanager.entities.Task;
+import com.vtb.idrteam.taskmanager.entities.User;
+import com.vtb.idrteam.taskmanager.entities.simpletables.UserTaskAuthority;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +19,7 @@ public class UserTask {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "auth_id", referencedColumnName = "id")
+    @JoinColumn(name = "task_authority_id", referencedColumnName = "id")
     private UserTaskAuthority userTaskAuthority;
 
     @ManyToOne(fetch = FetchType.LAZY)

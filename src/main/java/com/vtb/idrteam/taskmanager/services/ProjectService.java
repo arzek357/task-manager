@@ -1,7 +1,7 @@
 package com.vtb.idrteam.taskmanager.services;
 
 import com.vtb.idrteam.taskmanager.entities.Project;
-import com.vtb.idrteam.taskmanager.repositories.ProjectRepo;
+import com.vtb.idrteam.taskmanager.repositories.ProjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,25 +11,21 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class ProjectService {
-    private ProjectRepo projectRepo;
+    private ProjectRepository projectRepository;
 
     public List<Project> findAll(){
-        return projectRepo.findAll();
+        return projectRepository.findAll();
     }
 
     public Optional<Project> findById(Long id){
-        return projectRepo.findById(id);
-    }
-
-    public List<Project> findByCreatorId(Long creatorId){
-        return projectRepo.findByCreatorId(creatorId);
+        return projectRepository.findById(id);
     }
 
     public void deleteById(Long id){
-        projectRepo.deleteById(id);
+        projectRepository.deleteById(id);
     }
 
     public Project saveOrUpdate(Project project){
-        return projectRepo.save(project);
+        return projectRepository.save(project);
     }
 }
