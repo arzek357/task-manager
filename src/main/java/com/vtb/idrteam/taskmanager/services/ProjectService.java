@@ -3,6 +3,8 @@ package com.vtb.idrteam.taskmanager.services;
 import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.repositories.ProjectRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,10 @@ public class ProjectService {
 
     public List<Project> findAll(){
         return projectRepository.findAll();
+    }
+
+    public List<Project> findAll(Specification<Project> spec){
+        return projectRepository.findAll((Sort) spec);
     }
 
     public Optional<Project> findById(Long id){
