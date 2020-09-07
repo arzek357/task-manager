@@ -1,6 +1,7 @@
 package com.vtb.idrteam.taskmanager.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -21,9 +22,11 @@ public class Role {
 
     @CreationTimestamp
     @Column(name = "created_at")
+    @ColumnDefault("current_timestamp")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
+    @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
 }

@@ -1,9 +1,9 @@
 package com.vtb.idrteam.taskmanager.entities;
 
-import com.vtb.idrteam.taskmanager.entities.bindtables.UserProject;
 import com.vtb.idrteam.taskmanager.entities.bindtables.UserTask;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -46,25 +46,32 @@ public class User {
 
     @CreationTimestamp
     @Column(name = "created_at")
+    @ColumnDefault("current_timestamp")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
+    @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
 
-//    @ManyToMany
-//    @JoinTable(name = "users_projects",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "project_id"))
-//    private List<Project> projects;
+    @ManyToMany
+    @JoinTable(name = "users_projects",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id"))
+    private List<Project> projects;
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<UserProject> userProjects = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.ALL,
+//            orphanRemoval = true)
+//    @JoinColumn(name = "creator_id")
+//    private List<Project> createdProjects;
+
+//    @OneToMany(
+//            mappedBy = "user",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
+//            fetch = FetchType.LAZY
+//    )
+//    private List<UserProject> userProjects = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "user",
