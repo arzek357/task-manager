@@ -1,14 +1,13 @@
 package com.vtb.idrteam.taskmanager.entities.dtos;
 
-import lombok.Data;
+import com.vtb.idrteam.taskmanager.entities.User;
 
-@Data
-public class ProjectDto {
-    private String name;
-    private String description;
+import java.util.List;
 
-    public ProjectDto(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
+public interface ProjectDto {
+    Long getId();
+    String getName();
+    String getDescription();
+    List<UserDto> getUsers();
+
 }

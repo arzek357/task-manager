@@ -32,7 +32,8 @@ public class ProjectsController {
 //        return projectService.findAll(projectFilter.getSpec());
 
 //        return userService.findProjectsDtoByUsername(principal.getName());
-        return null; //todo
+        return projectService.getAllProjectsByUsername(principal.getName());
+//        return null;
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
@@ -41,6 +42,6 @@ public class ProjectsController {
         if (project.getId() != null) {
             project.setId(null);
         }
-        return projectService.createNewProject(project, principal.getName());
+        return projectService.createNewProject(project, principal.getName()); //not working!!!
     }
 }

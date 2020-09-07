@@ -1,6 +1,5 @@
 package com.vtb.idrteam.taskmanager.entities;
 
-import com.vtb.idrteam.taskmanager.entities.bindtables.UserProject;
 import com.vtb.idrteam.taskmanager.entities.bindtables.UserTask;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -61,10 +60,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "project_id"))
     private List<Project> projects;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    @JoinColumn(name = "creator_id")
-    private List<Project> createdProjects;
+//    @OneToMany(cascade = CascadeType.ALL,
+//            orphanRemoval = true)
+//    @JoinColumn(name = "creator_id")
+//    private List<Project> createdProjects;
 
 //    @OneToMany(
 //            mappedBy = "user",

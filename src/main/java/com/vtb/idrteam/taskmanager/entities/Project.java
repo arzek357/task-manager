@@ -1,6 +1,5 @@
 package com.vtb.idrteam.taskmanager.entities;
 
-import com.vtb.idrteam.taskmanager.entities.bindtables.UserProject;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -50,7 +49,9 @@ public class Project {
     private List<User> users = new ArrayList<>();
 
 //    @Column(name = "creator_id")
-//    private User creator;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id")
+    private User creator;
 
     @OneToMany(
             mappedBy = "project",

@@ -82,4 +82,8 @@ public class Task {
             fetch = FetchType.LAZY
     )
     private List<Notification> notifications = new ArrayList<>();
+
+    //manytomany - members
+    //manytoone User creator
+    //
 }
