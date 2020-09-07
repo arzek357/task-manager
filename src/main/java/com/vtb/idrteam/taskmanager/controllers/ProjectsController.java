@@ -31,7 +31,6 @@ public class ProjectsController {
 //        ProjectFilter projectFilter = new ProjectFilter(params);
 //        return projectService.findAll(projectFilter.getSpec());
 
-        System.out.println(principal.getName());
         return userService.findProjectsDtoByUsername(principal.getName());
     }
 

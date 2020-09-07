@@ -4,6 +4,7 @@ import com.vtb.idrteam.taskmanager.entities.bindtables.UserProject;
 import com.vtb.idrteam.taskmanager.entities.bindtables.UserTask;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -46,10 +47,12 @@ public class User {
 
     @CreationTimestamp
     @Column(name = "created_at")
+    @ColumnDefault("current_timestamp")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
+    @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
 
 //    @ManyToMany
