@@ -1,8 +1,8 @@
 package com.vtb.idrteam.taskmanager.controllers;
 
 import com.vtb.idrteam.taskmanager.configs.JwtTokenUtil;
-import com.vtb.idrteam.taskmanager.entities.dtos.JwtRequest;
-import com.vtb.idrteam.taskmanager.entities.dtos.JwtResponse;
+import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.JwtRequest;
+import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.JwtResponse;
 import com.vtb.idrteam.taskmanager.exceptions.SecurityExceptions.LogInError;
 import com.vtb.idrteam.taskmanager.services.UserService;
 import lombok.AllArgsConstructor;
