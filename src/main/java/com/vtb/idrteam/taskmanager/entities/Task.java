@@ -1,5 +1,6 @@
 package com.vtb.idrteam.taskmanager.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vtb.idrteam.taskmanager.entities.bindtables.UserTask;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -58,22 +59,14 @@ public class Task {
     @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
 
-    @OneToMany(
-            mappedBy = "task",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<UserTask> userTasks = new ArrayList<>();
-
-//    @OneToMany(
-//            mappedBy = "task",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true,
-//            fetch = FetchType.LAZY
-//    )
     @ManyToOne(fetch = FetchType.LAZY)
     private Project project;
+
+    @OneToMany(mappedBy = "task",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
+    private List<TaskParticipant> taskParticipants;
 
     @OneToMany(
             mappedBy = "task",
@@ -82,8 +75,4 @@ public class Task {
             fetch = FetchType.LAZY
     )
     private List<Notification> notifications = new ArrayList<>();
-
-    //manytomany - members
-    //manytoone User creator
-    //
 }
