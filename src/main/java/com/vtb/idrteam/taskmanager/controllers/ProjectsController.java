@@ -31,7 +31,8 @@ public class ProjectsController {
 //        ProjectFilter projectFilter = new ProjectFilter(params);
 //        return projectService.findAll(projectFilter.getSpec());
 
-        return userService.findProjectsDtoByUsername(principal.getName());
+//        return userService.findProjectsDtoByUsername(principal.getName());
+        return null; //todo
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")

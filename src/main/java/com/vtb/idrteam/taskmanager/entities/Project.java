@@ -38,13 +38,19 @@ public class Project {
     @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
 
-    @OneToMany(
-            mappedBy = "project",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<UserProject> userProjects = new ArrayList<>();
+//    @OneToMany(
+//            mappedBy = "project",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
+//            fetch = FetchType.LAZY
+//    )
+//    private List<UserProject> userProjects = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "projects")
+    private List<User> users = new ArrayList<>();
+
+//    @Column(name = "creator_id")
+//    private User creator;
 
     @OneToMany(
             mappedBy = "project",

@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.List;
 
 public interface UserProjectRepository  extends JpaRepository<UserProject, Long>, JpaSpecificationExecutor<UserProject> {
-    List<UserProject> findByUser(User user);
+//    List<UserProject> findByUser(User user);
 }

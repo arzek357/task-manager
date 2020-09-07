@@ -44,13 +44,12 @@ public class ProjectService {
     }
 
     public Project createNewProject(Project project, String username){
-        User creator =  userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
-        List<UserProject> userProjects = List.of(
-                new UserProject(creator, project, true)
-        );
-
-        project.setUserProjects(userProjects);
-
-        return saveOrUpdate(project);
+//        User creator =  userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
+//        List<UserProject> userProjects = List.of(
+//                new UserProject(creator, project, true)
+//        );
+//        project.setUserProjects(userProjects);
+//        return saveOrUpdate(project);
+        return null; //todo
     }
 }

@@ -42,13 +42,13 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
-    public List<Project> findProjectsByUsername(String username) {
-        List<UserProject> userProjects = userProjectRepository.findByUser(userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username))));
-        return userProjects.stream().map(UserProject::getProject).collect(Collectors.toList());
-    }
-
-    public List<ProjectDto> findProjectsDtoByUsername(String username) {
-        List<UserProject> userProjects = userProjectRepository.findByUser(userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username))));
-        return userProjects.stream().map(userProject -> new ProjectDto(userProject.getProject().getName(), userProject.getProject().getDescription())).collect(Collectors.toList());
-    }
+//    public List<Project> findProjectsByUsername(String username) {
+//        List<UserProject> userProjects = userProjectRepository.findByUser(userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username))));
+//        return userProjects.stream().map(UserProject::getProject).collect(Collectors.toList());
+//    }
+//
+//    public List<ProjectDto> findProjectsDtoByUsername(String username) {
+//        List<UserProject> userProjects = userProjectRepository.findByUser(userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username))));
+//        return userProjects.stream().map(userProject -> new ProjectDto(userProject.getProject().getName(), userProject.getProject().getDescription())).collect(Collectors.toList());
+//    }
 }
