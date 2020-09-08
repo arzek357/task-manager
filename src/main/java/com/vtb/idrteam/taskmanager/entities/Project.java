@@ -59,6 +59,9 @@ public class Project {
     private List<Task> tasks = new ArrayList<>();
 
     public Project(String name,String description) {
+        if(description==null){
+            description="No description";
+        }
         this.name=name;
         this.description=description;
     }

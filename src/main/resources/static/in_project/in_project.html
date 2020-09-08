@@ -1,0 +1,54 @@
+<div>
+    <form novalidate ng-submit="submitCreateNewTask()" name="newTaskForm">
+        <div class="card-body" style="display: flex;flex-direction: column;align-items: center;align-content: center;border: 2px solid;">
+            <div class="form-group col-md-6">
+                <input name="inputName" class="form-control form-control-sm" type="text" placeholder="Название" ng-model="newProject.name" id="newProjectName">
+            </div>
+            <div class="form-group col-md-6">
+                <input class="form-control form-control-sm" type="text" placeholder="Описание" ng-model="newProject.description" id="newProjectDescription">
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit">Создать</button>
+            </div>
+        </div>
+    </form>
+    <div style="display: flex;justify-content: space-between;margin-top: 30px">
+        <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
+            <ul class="list-group-item list-group-item-primary"><b>Создана</b>
+                <li class="list-group-item">task #</li>
+                <li class="list-group-item">task #</li>
+                <li class="list-group-item">task #</li>
+            </ul>
+        </div>
+        <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
+            <ul class="list-group-item list-group-item-warning"><b>В работе</b>
+                <li class="list-group-item">task #</li>
+                <li class="list-group-item">task #</li>
+            </ul>
+        </div>
+        <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
+            <ul class="list-group-item list-group-item-info"><b>На проверке</b>
+                <li class="list-group-item">task #</li>
+                <li class="list-group-item">task #</li>
+            </ul>
+        </div>
+        <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
+            <ul class="list-group-item list-group-item-dark"><b>Возвращена на доработку</b>
+                <li class="list-group-item">task #</li>
+                <li class="list-group-item">task #</li>
+            </ul>
+        </div>
+        <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
+            <ul class="list-group-item list-group-item-success"><b>Завершена</b>
+                <li class="list-group-item">task #</li>
+                <li class="list-group-item">task #</li>
+            </ul>
+        </div>
+        <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
+            <ul class="list-group-item list-group-item-danger"><b>Отменена</b>
+                <li class="list-group-item">task #</li>
+                <li class="list-group-item">task #</li>
+            </ul>
+        </div>
+    </div>
+</div>
