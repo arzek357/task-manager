@@ -1,6 +1,9 @@
 package com.vtb.idrteam.taskmanager.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.vtb.idrteam.taskmanager.entities.simpletables.TaskStatus;
+import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -30,31 +33,36 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(Views.Id.class)
     @Column(name = "id")
     private Long id;
 
     @Column(name = "name")
+    @JsonView(Views.Small.class)
     private String name;
 
     @Column(name = "description")
+    @JsonView(Views.Small.class)
     private String description;
 
     @Column(name = "archived")
+    @JsonView(Views.Small.class)
     private Boolean archived;
 
     @Column(name = "deadline_time")
+    @JsonView(Views.BigTask.class)
     private LocalDateTime deadlineTime;
 
 //    @Column(name = "creator_id")
 //    private Long creatorId;
-    @JsonIgnore
     @CreationTimestamp
+    @JsonView(Views.FullTask.class)
     @Column(name = "created_at")
     @ColumnDefault("current_timestamp")
     private LocalDateTime createdAt;
 
-    @JsonIgnore
     @UpdateTimestamp
+    @JsonView(Views.FullTask.class)
     @Column(name = "updated_at")
     @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
@@ -63,7 +71,7 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY)
     private Project project;
 
-    @JsonIgnore
+    @JsonView(Views.BigTask.class)
     @OneToMany(mappedBy = "task",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
@@ -78,4 +86,9 @@ public class Task {
             fetch = FetchType.LAZY
     )
     private List<Notification> notifications = new ArrayList<>();
+
+    @JsonView(Views.BigTask.class)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "task_state_id", referencedColumnName = "id")
+    private TaskStatus taskStatus;
 }

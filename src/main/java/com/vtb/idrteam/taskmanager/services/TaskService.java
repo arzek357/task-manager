@@ -2,10 +2,8 @@ package com.vtb.idrteam.taskmanager.services;
 
 import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.Task;
-import com.vtb.idrteam.taskmanager.entities.TaskParticipant;
 import com.vtb.idrteam.taskmanager.entities.User;
-import com.vtb.idrteam.taskmanager.entities.dtos.tasksDtos.TaskDto;
-import com.vtb.idrteam.taskmanager.entities.dtos.userDtos.UserDto;
+import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.TaskRepository;
 import lombok.AllArgsConstructor;
@@ -22,18 +20,20 @@ public class TaskService {
     private UserService userService;
     private TaskParticipantService taskParticipantService;
 
-//    public List<TaskDto> findByProjectAndNotArchived(Long projectId) {
-//        return taskRepository.findAllByProjectAndArchivedFalse(projectService.findById(projectId));
-//    }
-
     public Task findById(Long id) {
         return taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task with " + id + " not found"));
     }
 
-    public List<Task> findAll() {
-        return taskRepository.findAll();
+    public Task createNewTaskInProject(Long projectId,Task task){
+        Project project = projectService.findById(projectId).orElseThrow( () -> new ProjectNotFoundException(String.format("Project with id = %d not found!",projectId)));
+        project.getTasks().add(task);
+        task.setProject(project);
+        return saveOrUpdate(task);
     }
 
+    public Task saveOrUpdate(Task task){
+        return taskRepository.save(task);
+    }
     public List<User> findTaskParticipants(Long taskId) {
         Task task = findById(taskId);
         taskParticipantService.findByTask(task);

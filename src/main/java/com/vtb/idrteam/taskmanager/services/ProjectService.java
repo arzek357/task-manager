@@ -2,8 +2,6 @@ package com.vtb.idrteam.taskmanager.services;
 
 import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.User;
-import com.vtb.idrteam.taskmanager.entities.dtos.projectDtos.ProjectDto;
-import com.vtb.idrteam.taskmanager.entities.dtos.projectDtos.ProjectDtoProjectsPage;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.ProjectRepository;
 import lombok.AllArgsConstructor;
@@ -37,17 +35,17 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
-    public ProjectDtoProjectsPage createNewProject(ProjectDtoProjectsPage projectDtoProjectsPage, String username) {
+    public Project createNewProject(Project project, String username) {
         User creator =  userService.findByUsername(username);
-        Project project = new Project(projectDtoProjectsPage.getName(),projectDtoProjectsPage.getDescription());
+        if (project.getDescription()==null){
+            project.setDescription("No description");
+        }
         project.setCreator(creator);
         project.getUsers().add(creator);
         creator.getProjects().add(project);
-        saveOrUpdate(project);
-        return new ProjectDtoProjectsPage(project);
+        return saveOrUpdate(project);
     }
 
-//    public List<ProjectDto> getAllProjectsByUsername(String username) {
     public List<Project> getAllProjectsByUsername(String username) {
         User user = userService.findByUsername(username);
         return projectRepository.findAllByUsers(user);

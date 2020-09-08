@@ -1,7 +1,9 @@
 package com.vtb.idrteam.taskmanager.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.entities.simpletables.UserTaskAuthority;
+import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +16,7 @@ import javax.persistence.*;
 public class TaskParticipant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(Views.Id.class)
     @Column(name = "id")
     private Long id;
 
@@ -21,9 +24,11 @@ public class TaskParticipant {
     @ManyToOne(fetch = FetchType.EAGER)
     private Task task;
 
+    @JsonView(Views.Small.class)
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
+    @JsonView(Views.Small.class)
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "task_authority_id", referencedColumnName = "id")
     private UserTaskAuthority userTaskAuthority;

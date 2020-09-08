@@ -3,7 +3,6 @@ package com.vtb.idrteam.taskmanager.services;
 import com.vtb.idrteam.taskmanager.entities.Role;
 import com.vtb.idrteam.taskmanager.entities.TaskParticipant;
 import com.vtb.idrteam.taskmanager.entities.User;
-import com.vtb.idrteam.taskmanager.entities.dtos.userDtos.UserDto;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.UserRepository;
 import lombok.AllArgsConstructor;

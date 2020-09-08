@@ -7,11 +7,13 @@ public final class Views {
 
     public interface BigUser extends Small{}
 
-    public interface FullUser extends Small{}
+    public interface FullUser extends BigUser{}
 
     public interface BigProject extends Small{}
 
-    public interface FullProject extends Small{}
+    public interface FullProject extends BigProject{}
 
-    public interface FullTask extends Small{}
+    public interface FullTask extends BigTask{}
+
+    public interface BigTask extends Small{}
 }

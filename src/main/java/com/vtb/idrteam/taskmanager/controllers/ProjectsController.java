@@ -3,9 +3,6 @@ package com.vtb.idrteam.taskmanager.controllers;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.User;
-import com.vtb.idrteam.taskmanager.entities.dtos.projectDtos.ProjectDto;
-import com.vtb.idrteam.taskmanager.entities.dtos.projectDtos.ProjectDtoProjectsPage;
-import com.vtb.idrteam.taskmanager.entities.dtos.tasksDtos.TaskDto;
 import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
 import com.vtb.idrteam.taskmanager.services.ProjectService;
 import com.vtb.idrteam.taskmanager.services.TaskService;
@@ -29,7 +26,6 @@ public class ProjectsController {
 
     @GetMapping
     @JsonView(Views.Small.class)
-//    public List<ProjectDto> getAllProjects(Principal principal) {
     public List<Project> getAllProjects(Principal principal) {
         return projectService.getAllProjectsByUsername(principal.getName());
     }
@@ -37,8 +33,8 @@ public class ProjectsController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     @JsonView(Views.Small.class)
-    public ProjectDtoProjectsPage createNewProject(@RequestBody ProjectDtoProjectsPage projectDtoProjectsPage, Principal principal) {
-        return projectService.createNewProject(projectDtoProjectsPage, principal.getName());
+    public Project createNewProject(@RequestBody Project project, Principal principal) {
+        return projectService.createNewProject(project, principal.getName());
     }
 
     @GetMapping("/{id}")

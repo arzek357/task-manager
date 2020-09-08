@@ -14,13 +14,13 @@ insert into projects (name, description, creator_id) values ('name1', 'desc2', 1
 
 insert into users_projects(user_id, project_id) values (1, 1);
 
-insert into tasks (name, description, project_id, archived, deadline_time) values
-('task1', 'desc1', 1, false, current_timestamp+5),
-('task2', 'desc2', 1, true, current_timestamp +7);
-
-insert into tasksauthorities (name) values ('worker');
-insert into taskparticipants (task_id, user_id, task_authority_id) values
-(1, 1, 1), (1, 3, 1), (2, 3, 1);
+-- insert into tasks (name, description, project_id, archived, deadline_time) values
+-- ('task1', 'desc1', 1, false, current_timestamp+5),
+-- ('task2', 'desc2', 1, true, current_timestamp +7);
+--
+-- insert into tasksauthorities (name) values ('worker');
+-- insert into taskparticipants (task_id, user_id, task_authority_id) values
+-- (1, 1, 1), (1, 3, 1), (2, 3, 1);
 
 -- insert into users_tasks(task_id, user_id) values
 -- (1, 1), (1, 3), (2, 3);
