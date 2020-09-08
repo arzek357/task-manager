@@ -17,6 +17,7 @@ public class TaskParticipant {
     @Column(name = "id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Task task;
 

@@ -21,19 +21,10 @@ public class ProjectsController {
     private ProjectService projectService;
     private UserService userService;
 
-    //    @GetMapping("/byuser/{id}")
-    //    public List<Project> getAllProjects(@PathVariable Long id) {
-    @GetMapping
-//    public List<Project> getAllProjects(@RequestParam(name = "user_id", required = false) Long userId) {
-    public List<ProjectDto> getAllProjects(Principal principal) {
-//        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-//        params.add("user_id", userId.toString());
-//        ProjectFilter projectFilter = new ProjectFilter(params);
-//        return projectService.findAll(projectFilter.getSpec());
 
-//        return userService.findProjectsDtoByUsername(principal.getName());
+    @GetMapping
+    public List<ProjectDto> getAllProjects(Principal principal) {
         return projectService.getAllProjectsByUsername(principal.getName());
-//        return null;
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")

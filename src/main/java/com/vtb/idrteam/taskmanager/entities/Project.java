@@ -1,5 +1,6 @@
 package com.vtb.idrteam.taskmanager.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vtb.idrteam.taskmanager.entities.simpletables.UserTaskAuthority;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,11 +33,13 @@ public class Project {
     @JoinColumn(name = "creator_id", referencedColumnName = "id")
     private User creator;
 
+    @JsonIgnore
     @CreationTimestamp
     @Column(name = "created_at")
     @ColumnDefault("current_timestamp")
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @UpdateTimestamp
     @Column(name = "updated_at")
     @ColumnDefault("current_timestamp")
