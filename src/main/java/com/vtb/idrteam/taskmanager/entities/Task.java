@@ -59,20 +59,22 @@ public class Task {
     @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Project project;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private Project project;
 
-    @OneToMany(mappedBy = "task",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY)
-    private List<TaskParticipant> taskParticipants;
 
-    @OneToMany(
-            mappedBy = "task",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<Notification> notifications = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "task",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
+//            fetch = FetchType.LAZY)
+//    private List<TaskParticipant> taskParticipants;
+
+//    @OneToMany(
+//            mappedBy = "task",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
+//            fetch = FetchType.LAZY
+//    )
+//    private List<Notification> notifications = new ArrayList<>();
 }

@@ -40,12 +40,6 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @ManyToMany
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
-
     @CreationTimestamp
     @Column(name = "created_at")
     @ColumnDefault("current_timestamp")
@@ -56,18 +50,34 @@ public class User {
     @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
 
+    //---------------------------------------------------
     @ManyToMany
-    @JsonIgnore
-    @JoinTable(name = "users_projects",
+    @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "project_id"))
-    private List<Project> projects;
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<Role> roles;
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<Notification> notifications = new ArrayList<>();
+//    @ManyToMany
+
+//    @JsonIgnore
+//    @JoinTable(name = "users_projects",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "project_id"))
+//    private List<Project> projects;
+
+    //todo projectParticipants
+//    @ManyToMany
+//    @JsonIgnore
+//    @JoinTable(name = "users_projects",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "project_id"))
+//    private List<Project> projects;
+
+//    @OneToMany(
+//            mappedBy = "user",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
+//            fetch = FetchType.LAZY
+//    )
+//    private List<Notification> notifications = new ArrayList<>();
 }

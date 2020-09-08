@@ -4,6 +4,7 @@ import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.User;
 import com.vtb.idrteam.taskmanager.entities.dtos.projectDtos.ProjectDto;
 import com.vtb.idrteam.taskmanager.entities.dtos.projectDtos.ProjectDtoProjectsPage;
+import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.ProjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -44,14 +45,20 @@ public class ProjectService {
         User creator =  userService.findByUsername(username);
         Project project = new Project(projectDtoProjectsPage.getName(),projectDtoProjectsPage.getDescription());
         project.setCreator(creator);
-        project.getUsers().add(creator);
-        creator.getProjects().add(project);
+//        project.getUsers().add(creator);
+//        creator.getProjects().add(project);
         saveOrUpdate(project);
         return new ProjectDtoProjectsPage(project);
     }
 
-    public List<ProjectDto> getAllProjectsByUsername(String username) {
+    public List<Project> getAllProjectsByCreator(String username) {
         User user = userService.findByUsername(username);
-        return projectRepository.findAllByUsers(user);
+
+//        return projectRepository.findAllByUsers(user);
+        return projectRepository.findAllByCreator(user);
+    }
+
+    public Project getProjectById(Long id) {
+        return projectRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Project with " + id + " not found"));
     }
 }

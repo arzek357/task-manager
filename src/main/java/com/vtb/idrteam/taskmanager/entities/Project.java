@@ -1,5 +1,6 @@
 package com.vtb.idrteam.taskmanager.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vtb.idrteam.taskmanager.entities.simpletables.UserTaskAuthority;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,10 +29,6 @@ public class Project {
     @Column(name = "description")
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "creator_id", referencedColumnName = "id")
-    private User creator;
-
     @CreationTimestamp
     @Column(name = "created_at")
     @ColumnDefault("current_timestamp")
@@ -42,18 +39,27 @@ public class Project {
     @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "creator_id", referencedColumnName = "id")
+    private User creator;
 
-    @ManyToMany(mappedBy = "projects")
-    private List<User> users = new ArrayList<>();
+//    @ManyToOne
+//    @JoinColumn(name = "project_id")
+//    private Project project;
+
+//make participants
+//    @ManyToMany(mappedBy = "projects")
+//    private List<User> users = new ArrayList<>();
 
 
-    @OneToMany(
-            mappedBy = "project",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<Task> tasks = new ArrayList<>();
+//    @OneToMany(
+//            mappedBy = "project",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
+//            fetch = FetchType.LAZY
+//    )
+//    private List<Task> tasks = new ArrayList<>();
 
     public Project(String name,String description) {
         this.name=name;
