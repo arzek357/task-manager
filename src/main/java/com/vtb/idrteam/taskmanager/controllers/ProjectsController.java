@@ -1,15 +1,19 @@
 package com.vtb.idrteam.taskmanager.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.entities.Project;
+import com.vtb.idrteam.taskmanager.entities.User;
 import com.vtb.idrteam.taskmanager.entities.dtos.projectDtos.ProjectDto;
 import com.vtb.idrteam.taskmanager.entities.dtos.projectDtos.ProjectDtoProjectsPage;
 import com.vtb.idrteam.taskmanager.entities.dtos.tasksDtos.TaskDto;
 import com.vtb.idrteam.taskmanager.services.ProjectService;
 import com.vtb.idrteam.taskmanager.services.TaskService;
 import com.vtb.idrteam.taskmanager.services.UserService;
+import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -26,7 +30,9 @@ public class ProjectsController {
 
 
     @GetMapping
-    public List<ProjectDto> getAllProjects(Principal principal) {
+    @JsonView(Views.Small.class)
+//    public List<ProjectDto> getAllProjects(Principal principal) {
+    public List<Project> getAllProjects(Principal principal) {
         return projectService.getAllProjectsByUsername(principal.getName());
     }
 

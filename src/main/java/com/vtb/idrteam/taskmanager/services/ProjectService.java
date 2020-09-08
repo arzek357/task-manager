@@ -47,7 +47,8 @@ public class ProjectService {
         return new ProjectDtoProjectsPage(project);
     }
 
-    public List<ProjectDto> getAllProjectsByUsername(String username) {
+//    public List<ProjectDto> getAllProjectsByUsername(String username) {
+    public List<Project> getAllProjectsByUsername(String username) {
         User user = userService.findByUsername(username);
         return projectRepository.findAllByUsers(user);
     }

@@ -9,6 +9,8 @@ public final class Views {
 
     public interface FullUser extends Small{}
 
+    public interface BigProject extends Small{}
+
     public interface FullProject extends Small{}
 
     public interface FullTask extends Small{}

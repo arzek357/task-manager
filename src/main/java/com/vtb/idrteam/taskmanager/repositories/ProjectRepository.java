@@ -14,8 +14,8 @@ import java.util.List;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpecificationExecutor<ProjectRepository> {
-//    List<Project> findAllByUsers(User user);
+    List<Project> findAllByUsers(User user);
 //    List<ProjectDtoOld> findAllByUsers(User user);
-    List<ProjectDto> findAllByUsers(User user);
+//    List<ProjectDto> findAllByUsers(User user);
 
 }
