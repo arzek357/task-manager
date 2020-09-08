@@ -1,6 +1,8 @@
 <div>
+    <h1 ng-model="project">{{project.name}}</h1>
     <form novalidate ng-submit="submitCreateNewTask()" name="newTaskForm">
         <div class="card-body" style="display: flex;flex-direction: column;align-items: center;align-content: center;border: 2px solid;">
+            <h3>Создать новую задачу</h3>
             <div class="form-group col-md-6">
                 <input name="inputName" class="form-control form-control-sm" type="text" placeholder="Название" ng-model="newProject.name" id="newProjectName">
             </div>

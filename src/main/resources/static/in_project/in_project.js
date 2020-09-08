@@ -5,7 +5,7 @@ angular.module('app').controller('in_projectController', function ($scope, $http
     fillTable = function () {
         $http.get(contextPath + '/api/v1/projects/'+projectId)
             .then(function (response) {
-                $scope.TasksList = response.data.tasks;
+                $scope.project = response.data;
             });
     };
 
