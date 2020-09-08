@@ -40,17 +40,20 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
+    @JsonIgnore
     @CreationTimestamp
     @Column(name = "created_at")
     @ColumnDefault("current_timestamp")
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @UpdateTimestamp
     @Column(name = "updated_at")
     @ColumnDefault("current_timestamp")
@@ -63,6 +66,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "project_id"))
     private List<Project> projects;
 
+    @JsonIgnore
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,

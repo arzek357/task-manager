@@ -48,17 +48,19 @@ public class Task {
 
 //    @Column(name = "creator_id")
 //    private Long creatorId;
-
+    @JsonIgnore
     @CreationTimestamp
     @Column(name = "created_at")
     @ColumnDefault("current_timestamp")
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @UpdateTimestamp
     @Column(name = "updated_at")
     @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Project project;
 
@@ -68,6 +70,7 @@ public class Task {
             fetch = FetchType.LAZY)
     private List<TaskParticipant> taskParticipants;
 
+    @JsonIgnore
     @OneToMany(
             mappedBy = "task",
             cascade = CascadeType.ALL,
