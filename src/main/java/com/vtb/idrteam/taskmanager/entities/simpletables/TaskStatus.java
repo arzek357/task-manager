@@ -20,8 +20,4 @@ public class TaskStatus {
 
     @Column(name = "codename")
     private String codename;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "task_state_id", referencedColumnName = "id")
-    private TaskStatus taskStatus;
 }

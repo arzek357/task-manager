@@ -10,11 +10,11 @@ angular.module('app').controller('in_projectController', function ($scope, $http
     };
 
     $scope.submitCreateNewTask = function () {
-        $http.post(contextPath + '/api/v1/projects'+projectId, $scope.newTask)
+        $http.post(contextPath + '/api/v1/tasks/'+projectId, $scope.newTask)
             .then(function (response) {
-                $scope.TasksList.push(response.data);
-                document.getElementById("newProjectName").value="";
-                document.getElementById("newProjectDescription").value="";
+                $scope.project.tasks.push(response.data);
+                document.getElementById("newTaskName").value="";
+                delete $scope.newTask;
             });
     };
 
