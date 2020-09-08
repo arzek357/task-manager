@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 public class ProjectDtoProjectsPage {
     private String name;
     private String description;
-    private User creator;
+    private Long id;
 
     public ProjectDtoProjectsPage(Project project) {
+        this.id=project.getId();
         this.name = project.getName();
         this.description = project.getDescription();
-        this.creator=project.getCreator();
     }
 }

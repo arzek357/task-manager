@@ -3,8 +3,8 @@ package com.vtb.idrteam.taskmanager.controllers;
 import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.dtos.projectDtos.ProjectDto;
 import com.vtb.idrteam.taskmanager.entities.dtos.projectDtos.ProjectDtoProjectsPage;
+import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
 import com.vtb.idrteam.taskmanager.services.ProjectService;
-import com.vtb.idrteam.taskmanager.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,6 @@ import java.util.List;
 @Slf4j
 public class ProjectsController {
     private ProjectService projectService;
-    private UserService userService;
 
 
     @GetMapping
@@ -31,5 +30,10 @@ public class ProjectsController {
     @ResponseStatus(HttpStatus.CREATED)
     public ProjectDtoProjectsPage createNewProject(@RequestBody ProjectDtoProjectsPage projectDtoProjectsPage, Principal principal) {
         return projectService.createNewProject(projectDtoProjectsPage, principal.getName());
+    }
+
+    @GetMapping("/{id}")
+    public Project getProjectById(@PathVariable Long id,Principal principal){
+        return projectService.findById(id).orElseThrow( () -> new ProjectNotFoundException(String.format("Project with id = %d not found!",id)));
     }
 }

@@ -64,6 +64,7 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY)
     private Project project;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "task",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
