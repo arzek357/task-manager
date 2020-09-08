@@ -1,7 +1,10 @@
 package com.vtb.idrteam.taskmanager.services;
 
 import com.vtb.idrteam.taskmanager.entities.Role;
+import com.vtb.idrteam.taskmanager.entities.TaskParticipant;
 import com.vtb.idrteam.taskmanager.entities.User;
+import com.vtb.idrteam.taskmanager.entities.dtos.userDtos.UserDto;
+import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 @Service
@@ -22,6 +26,10 @@ public class UserService implements UserDetailsService {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public User findById(Long id){
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found, id = " + id));
     }
 
     @Override
@@ -35,6 +43,9 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
+//    public List<UserDto> findByTasksParticipants(List<TaskParticipant> participants){
+//        return userRepository.findAllByTasksParticipants(participants);
+//    }
 
 
 //    public List<Project> findProjectsByUsername(String username) {

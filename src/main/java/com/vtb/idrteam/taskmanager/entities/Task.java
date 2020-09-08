@@ -1,7 +1,6 @@
 package com.vtb.idrteam.taskmanager.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vtb.idrteam.taskmanager.entities.bindtables.UserTask;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
