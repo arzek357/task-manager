@@ -22,9 +22,9 @@ public class TaskService {
     private UserService userService;
     private TaskParticipantService taskParticipantService;
 
-    public List<TaskDto> findByProjectAndNotArchived(Long projectId) {
-        return taskRepository.findAllByProjectAndArchivedFalse(projectService.findById(projectId));
-    }
+//    public List<TaskDto> findByProjectAndNotArchived(Long projectId) {
+//        return taskRepository.findAllByProjectAndArchivedFalse(projectService.findById(projectId));
+//    }
 
     public Task findById(Long id) {
         return taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task with " + id + " not found"));

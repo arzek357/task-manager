@@ -53,7 +53,7 @@ public class ProjectService {
         return projectRepository.findAllByUsers(user);
     }
 
-    public Project findById(Long id){
-        return projectRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Project with " + id + " not found"));
+    public Optional<Project> findById(Long id){
+        return projectRepository.findById(id);
     }
 }

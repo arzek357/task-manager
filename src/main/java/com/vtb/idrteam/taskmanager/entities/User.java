@@ -34,11 +34,11 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @JsonView(Views.BigUser.class)
+    @JsonView(Views.Small.class)
     @Column(name = "name")
     private String name;
 
-    @JsonView(Views.BigUser.class)
+    @JsonView(Views.Small.class)
     @Column(name = "surname")
     private String surname;
 

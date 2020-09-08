@@ -36,11 +36,13 @@ public class ProjectsController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
+    @JsonView(Views.Small.class)
     public ProjectDtoProjectsPage createNewProject(@RequestBody ProjectDtoProjectsPage projectDtoProjectsPage, Principal principal) {
         return projectService.createNewProject(projectDtoProjectsPage, principal.getName());
     }
 
     @GetMapping("/{id}")
+    @JsonView(Views.BigProject.class)
     public Project getProjectById(@PathVariable Long id,Principal principal){
         return projectService.findById(id).orElseThrow( () -> new ProjectNotFoundException(String.format("Project with id = %d not found!",id)));
     }
