@@ -40,9 +40,10 @@ public class ProjectService {
         if (project.getDescription()==null){
             project.setDescription("No description");
         }
-        project.setCreator(creator);
-        project.getUsers().add(creator);
-        creator.getProjects().add(project);
+//        project.setCreator(creator);
+//        project.getUsers().add(creator);
+//        creator.getProjects().add(project);
+        creator.addProject(project);
         return saveOrUpdate(project);
     }
 

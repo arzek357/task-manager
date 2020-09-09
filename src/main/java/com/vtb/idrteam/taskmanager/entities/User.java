@@ -3,20 +3,21 @@ package com.vtb.idrteam.taskmanager.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.utils.Views;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.*;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(exclude = "projects")
 @Table(name = "users")
 @NoArgsConstructor
 public class User {
@@ -72,7 +73,7 @@ public class User {
     @JoinTable(name = "users_projects",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id"))
-    private List<Project> projects;
+    private Set<Project> projects = new HashSet<>();
 
     @JsonView(Views.FullUser.class)
     @OneToMany(
@@ -91,4 +92,10 @@ public class User {
             fetch = FetchType.LAZY
     )
     private List<TaskParticipant> tasksParticipants = new ArrayList<>();
+
+    public void addProject(Project project){
+        projects.add(project);
+        project.setCreator(this);
+        project.getUsers().add(this);
+    }
 }
