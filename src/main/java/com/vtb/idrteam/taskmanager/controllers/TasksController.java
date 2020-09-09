@@ -30,6 +30,6 @@ public class TasksController {
     @PostMapping("/{id}")
     @JsonView(Views.Small.class)
     public Task createNewTaskInProject(@RequestBody Task task,@PathVariable Long id){
-        return taskService.createNewTaskInProject(id,task);
+        return taskService.createNewTask(id,task);
     }
 }

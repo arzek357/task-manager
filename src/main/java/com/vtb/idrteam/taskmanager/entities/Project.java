@@ -1,22 +1,25 @@
 package com.vtb.idrteam.taskmanager.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.vtb.idrteam.taskmanager.entities.simpletables.UserTaskAuthority;
 import com.vtb.idrteam.taskmanager.utils.Views;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.*;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Data
+//@Data
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "users")
 @Table(name = "projects")
 @NoArgsConstructor
 public class Project {
@@ -55,7 +58,7 @@ public class Project {
     @ManyToMany(
             mappedBy = "projects",
             cascade = CascadeType.ALL)
-    private List<User> users = new ArrayList<>();
+    private Set<User> users = new HashSet<>();
 
     @JsonView(Views.BigProject.class)
     @OneToMany(

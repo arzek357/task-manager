@@ -2,6 +2,7 @@ package com.vtb.idrteam.taskmanager.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.vtb.idrteam.taskmanager.entities.simpletables.TaskAuthority;
 import com.vtb.idrteam.taskmanager.entities.simpletables.TaskStatus;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.Data;
@@ -21,7 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Task {
     //Задачи могут иметь статусы: создана, в работе, передана на проверку, возвращена на доработку, завершена, отменена.
-    //CREATED, IN_PROCESS, IN_REVIEW, IN_REWORK, COMPLETED, CANCELED
+    //CREATED, IN_PROGRESS, ON_REVIEW, ON_REWORK, COMPLETED, CANCELED
 //    public enum Status {
 //        CREATED, IN_PROCESS, IN_REVIEW, IN_REWORK, COMPLETED, CANCELED;
 //    }
@@ -37,11 +38,11 @@ public class Task {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 100)
     @JsonView(Views.Small.class)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 500)
     @JsonView(Views.Small.class)
     private String description;
 
@@ -66,6 +67,12 @@ public class Task {
     @Column(name = "updated_at")
     @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
+
+    //Настройка видимости задачи
+//    @JsonView(Views.BigTask.class)
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "task_authority_id", referencedColumnName = "id")
+//    private TaskAuthority taskAuthority;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
