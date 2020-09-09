@@ -73,9 +73,9 @@ public class NotificationService {
         StringBuilder message = new StringBuilder();
 
         message.append("Описание задачи: \n")
-                .append("\"").append(newTask.getDescription()).append("\" ");
+                .append(newTask.getDescription()).append("\n");
         message.append("Статус задачи: ")
-                .append(newTask.getTaskStatus().getName());
+                .append(newTask.getTaskStatus().getName()).append("\n");
         message.append("Срок сдачи: ")
                 .append(newTask.getDeadlineTime());
 
