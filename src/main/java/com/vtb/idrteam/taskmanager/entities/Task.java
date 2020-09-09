@@ -2,6 +2,7 @@ package com.vtb.idrteam.taskmanager.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.vtb.idrteam.taskmanager.entities.simpletables.TaskAuthority;
 import com.vtb.idrteam.taskmanager.entities.simpletables.TaskStatus;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.Data;
@@ -66,6 +67,12 @@ public class Task {
     @Column(name = "updated_at")
     @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
+
+    //Настройка видимости задачи
+//    @JsonView(Views.BigTask.class)
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "task_authority_id", referencedColumnName = "id")
+//    private TaskAuthority taskAuthority;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

@@ -17,7 +17,7 @@ import java.util.*;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(exclude = "projects")
+@EqualsAndHashCode(exclude = {"projects", "notifications"})
 @Table(name = "users")
 @NoArgsConstructor
 public class User {
@@ -76,13 +76,11 @@ public class User {
     private Set<Project> projects = new HashSet<>();
 
     @JsonView(Views.FullUser.class)
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<Notification> notifications = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "users_notifications",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "notification_id"))
+    private Set<Notification> notifications = new HashSet<>();
 
     @JsonView(Views.FullUser.class)
     @OneToMany(
