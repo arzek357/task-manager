@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class NotificationService {
     private NotificationRepository notificationRepository;
-//    private TaskService taskService;
-    private UserService userService;
 
     public Notification saveOrUpdate(Notification notification){
         return notificationRepository.save(notification);
@@ -49,42 +47,37 @@ public class NotificationService {
         StringBuilder message = new StringBuilder();
 
         if(!oldTask.getName().equals(alteredTask.getName())){
-            message.append("Название задачи ")
-                    .append("\"").append(oldTask.getName()).append("\" изменено на ")
-                    .append("\"").append(alteredTask.getName()).append("\"\n");
+            message.append("Старое название: ").append(oldTask.getName()).append("\n");
+            message.append("Новое название: ").append(alteredTask.getName()).append("\n");
         }
         if (!oldTask.getDescription().equals(alteredTask.getDescription())){
-            message.append("Описание задачи ")
-                    .append("\"").append(oldTask.getName()).append("\" ")
-                    .append("изменено:\n")
-                    .append("\"").append(alteredTask.getDescription()).append("\"\n");
-        }
-        if (!oldTask.getArchived() && alteredTask.getArchived()){
-            message.append("Задача ")
-                    .append("\"").append(oldTask.getName()).append("\" ")
-                    .append("перемещена в архив\n");
+            message.append("Старое описание: \n").append(oldTask.getDescription()).append("\n");
+            message.append("Новое описание: \n").append(alteredTask.getDescription()).append("\n");
         }
         if (!oldTask.getTaskStatus().getCodename().equals(alteredTask.getTaskStatus().getCodename())){
-            message.append("Статус задачи ")
-                    .append("\"").append(oldTask.getName()).append("\" ")
-                    .append("изменен:\n").append(alteredTask.getTaskStatus().getName());
+            message.append("Старый статус: ").append(oldTask.getTaskStatus().getName()).append("\n");
+            message.append("Новый статус: ").append(alteredTask.getTaskStatus().getName()).append("\n");
         }
         if (oldTask.getDeadlineTime() != alteredTask.getDeadlineTime()){
-            message.append("Статус задачи ")
-                    .append("\"").append(oldTask.getName()).append("\" ")
-                    .append("изменен:\n")
-                    .append("Было: ").append(oldTask.getDeadlineTime())
-                    .append("Стало: ").append(alteredTask.getDeadlineTime());
+            message.append("Старый срок сдачи: ").append(oldTask.getDeadlineTime()).append("\n");
+            message.append("Новый срок сдачи: ").append(alteredTask.getDeadlineTime()).append("\n");
+        }
+        if (!oldTask.getArchived() && alteredTask.getArchived()){
+            message.append("Задача перемещна в архив\n");
         }
 
         return message.toString();
     }
 
-    //TODO
     private String makeNotificationTextForNewTask(Task newTask){
         StringBuilder message = new StringBuilder();
 
-//        message.append("Новая задача:")
+        message.append("Описание задачи: \n")
+                .append("\"").append(newTask.getDescription()).append("\" ");
+        message.append("Статус задачи: ")
+                .append(newTask.getTaskStatus().getName());
+        message.append("Срок сдачи: ")
+                .append(newTask.getDeadlineTime());
 
         return message.toString();
     }
