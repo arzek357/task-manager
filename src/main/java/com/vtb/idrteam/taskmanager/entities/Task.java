@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Task {
     //Задачи могут иметь статусы: создана, в работе, передана на проверку, возвращена на доработку, завершена, отменена.
-    //CREATED, IN_PROCESS, IN_REVIEW, IN_REWORK, COMPLETED, CANCELED
+    //CREATED, IN_PROGRESS, ON_REVIEW, ON_REWORK, COMPLETED, CANCELED
 //    public enum Status {
 //        CREATED, IN_PROCESS, IN_REVIEW, IN_REWORK, COMPLETED, CANCELED;
 //    }

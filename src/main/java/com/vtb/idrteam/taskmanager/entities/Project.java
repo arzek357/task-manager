@@ -1,8 +1,6 @@
 package com.vtb.idrteam.taskmanager.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.vtb.idrteam.taskmanager.entities.simpletables.UserTaskAuthority;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.*;
 import org.hibernate.annotations.*;

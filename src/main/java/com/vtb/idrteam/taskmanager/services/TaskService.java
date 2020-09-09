@@ -8,6 +8,7 @@ import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.TaskRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,12 @@ public class TaskService {
         Project project = projectService.findById(projectId).orElseThrow( () -> new ProjectNotFoundException(String.format("Project with id = %d not found!",projectId)));
         project.getTasks().add(task);
         task.setProject(project);
+        return saveOrUpdate(task);
+    }
+
+    @Transactional
+    public Task updateTask(Task task){
+        //todo logic with notification
         return saveOrUpdate(task);
     }
 
