@@ -37,11 +37,11 @@ public class Task {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 100)
     @JsonView(Views.Small.class)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 500)
     @JsonView(Views.Small.class)
     private String description;
 

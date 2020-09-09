@@ -33,9 +33,13 @@ public class TaskService {
     }
 
     @Transactional
-    public Task updateTask(Task task){
+    public Task updateTask(Task alteredTask){
+        Task oldTask = findById(alteredTask.getId());
         //todo logic with notification
-        return saveOrUpdate(task);
+
+
+
+        return saveOrUpdate(alteredTask);
     }
 
     public Task saveOrUpdate(Task task){
