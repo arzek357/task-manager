@@ -68,4 +68,9 @@ public class Project {
             fetch = FetchType.LAZY
     )
     private List<Task> tasks = new ArrayList<>();
+
+    public void addTask(Task task){
+        tasks.add(task);
+        task.setProject(this);
+    }
 }

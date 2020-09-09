@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,30 +25,29 @@ public class TaskService {
         return taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task with " + id + " not found"));
     }
 
+    public boolean existsById(Long id) {
+        return taskRepository.existsById(id);
+    }
+
     @Transactional
-    public Task createNewTask(Long projectId, Task task){
-        Project project = projectService.findById(projectId).orElseThrow( () -> new ProjectNotFoundException(String.format("Project with id = %d not found!",projectId)));
-        project.getTasks().add(task);
-        task.setProject(project);
+    public Task createNewTask(Long projectId, Task task) {
+        Project project = projectService.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(String.format("Project with id = %d not found!", projectId)));
+        project.addTask(task);
 
         notificationService.notifyAboutNewTask(task);
         return saveOrUpdate(task);
     }
 
     @Transactional
-    public Task updateTask(Task alteredTask){
-        Task oldTask = findById(alteredTask.getId());
-
-        //todo logic with notification
+    public Task updateTask(Task alteredTask) {
         notificationService.notifyAboutUpdatedTask(findById(alteredTask.getId()), alteredTask);
-
-
         return saveOrUpdate(alteredTask);
     }
 
-    public Task saveOrUpdate(Task task){
+    public Task saveOrUpdate(Task task) {
         return taskRepository.save(task);
     }
+
     public List<User> findTaskParticipants(Long taskId) {
         Task task = findById(taskId);
         taskParticipantService.findByTask(task);
