@@ -3,17 +3,31 @@ package com.vtb.idrteam.taskmanager.services;
 import com.vtb.idrteam.taskmanager.entities.Notification;
 import com.vtb.idrteam.taskmanager.entities.Task;
 import com.vtb.idrteam.taskmanager.entities.TaskParticipant;
+import com.vtb.idrteam.taskmanager.entities.User;
 import com.vtb.idrteam.taskmanager.repositories.NotificationRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class NotificationService {
     private NotificationRepository notificationRepository;
+    private UserService userService;
 
     public Notification saveOrUpdate(Notification notification){
         return notificationRepository.save(notification);
+    }
+
+    public Optional<Notification> findById(Long id){
+        return notificationRepository.findById(id);
+    }
+
+    public List<Notification> findByUsername(String username, Integer page){
+        return notificationRepository.findByUsers(userService.findByUsername(username), PageRequest.of(page, 10));
     }
 
     public Notification notifyAboutNewTask(Task task){
