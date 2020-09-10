@@ -2,6 +2,9 @@ server:
   servlet:
     context-path: /task-manager
   port: 8189
+  error:
+    include-stacktrace: never
+    include-exception: false
 spring:
   datasource:
     driver-class-name: org.h2.Driver

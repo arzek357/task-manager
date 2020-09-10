@@ -1,36 +1,44 @@
 package com.vtb.idrteam.taskmanager.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.*;
 import org.hibernate.annotations.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(of ={"id", "username", "name", "surname", "email", "roles"})
 @EqualsAndHashCode(exclude = {"projects", "notifications"})
 @Table(name = "users")
 @NoArgsConstructor
 public class User {
+    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @JsonView(Views.Id.class)
     private Long id;
 
+    @NotEmpty
+    @NotNull
     @JsonView(Views.Small.class)
     @Column(name = "username")
     private String username;
 
+    @NotNull
     @JsonIgnore
     @Column(name = "password")
     private String password;
@@ -47,7 +55,6 @@ public class User {
     @Column(name = "email")
     private String email;
 
-//    @JsonIgnore
     @JsonView(Views.FullUser.class)
     @ManyToMany
     @JoinTable(name = "users_roles",
@@ -55,14 +62,15 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-//    @JsonIgnore
     @JsonView(Views.FullUser.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     @ColumnDefault("current_timestamp")
     private LocalDateTime createdAt;
 
     @JsonView(Views.FullUser.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @UpdateTimestamp
     @Column(name = "updated_at")
     @ColumnDefault("current_timestamp")
