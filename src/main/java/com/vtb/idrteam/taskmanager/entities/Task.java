@@ -58,7 +58,7 @@ public class Task {
 //    private Long creatorId;
     @CreationTimestamp
     @JsonView(Views.FullTask.class)
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     @ColumnDefault("current_timestamp")
     private LocalDateTime createdAt;
 

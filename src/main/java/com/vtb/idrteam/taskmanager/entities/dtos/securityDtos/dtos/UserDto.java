@@ -1,11 +1,6 @@
 package com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
-import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.Data;
-
-import javax.persistence.Column;
 
 @Data
 public class UserDto {

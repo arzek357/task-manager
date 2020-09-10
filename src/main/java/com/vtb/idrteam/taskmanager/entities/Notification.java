@@ -45,7 +45,7 @@ public class Notification {
 
     @JsonView(Views.BigNotification.class)
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     @ColumnDefault("current_timestamp")
     private LocalDateTime createdAt;
 

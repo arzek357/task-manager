@@ -44,7 +44,7 @@ public class Project {
 
     @JsonView(Views.FullProject.class)
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     @ColumnDefault("current_timestamp")
     private LocalDateTime createdAt;
 
