@@ -7,6 +7,7 @@ import com.vtb.idrteam.taskmanager.entities.simpletables.TaskStatus;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Entity
 @Data
+@ToString(of = {"id", "name", "description", "deadlineTime", "createdAt", "updatedAt", "archived", "taskStatus", "project"})
 @Table(name = "tasks")
 @NoArgsConstructor
 public class Task {
@@ -55,8 +57,6 @@ public class Task {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime deadlineTime;
 
-    //    @Column(name = "creator_id")
-//    private Long creatorId;
     @CreationTimestamp
     @JsonView(Views.FullTask.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")

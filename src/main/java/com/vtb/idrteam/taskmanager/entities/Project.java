@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-//@Data
 @Getter
 @Setter
 @EqualsAndHashCode(exclude = "users")
+@ToString(of = {"id", "name", "description", "createdAt", "updatedAt", "creator"})
 @Table(name = "projects")
 @NoArgsConstructor
 public class Project {

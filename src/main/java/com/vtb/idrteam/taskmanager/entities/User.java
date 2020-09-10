@@ -17,7 +17,7 @@ import java.util.*;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(of ={"id", "username", "name", "surname", "email", "roles"})
 @EqualsAndHashCode(exclude = {"projects", "notifications"})
 @Table(name = "users")
 @NoArgsConstructor
@@ -48,7 +48,6 @@ public class User {
     @Column(name = "email")
     private String email;
 
-//    @JsonIgnore
     @JsonView(Views.FullUser.class)
     @ManyToMany
     @JoinTable(name = "users_roles",
@@ -56,7 +55,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-//    @JsonIgnore
     @JsonView(Views.FullUser.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @CreationTimestamp
