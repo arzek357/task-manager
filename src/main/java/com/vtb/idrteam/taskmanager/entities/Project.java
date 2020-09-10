@@ -25,14 +25,14 @@ import java.util.Set;
 @Table(name = "projects")
 @NoArgsConstructor
 public class Project {
-    @NotNull
+//    @NotNull
     @JsonView(Views.Id.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @NotNull
+//    @NotNull
     @JsonView(Views.Small.class)
     @Column(name = "name")
     private String name;
@@ -41,7 +41,7 @@ public class Project {
     @Column(name = "description")
     private String description;
 
-    @NotNull
+//    @NotNull
     @JsonView(Views.BigProject.class)
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "creator_id", referencedColumnName = "id")
