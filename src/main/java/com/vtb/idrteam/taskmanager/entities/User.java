@@ -13,6 +13,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -24,6 +25,7 @@ import java.util.*;
 @Table(name = "users")
 @NoArgsConstructor
 public class User {
+    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -31,10 +33,12 @@ public class User {
     private Long id;
 
     @NotEmpty
+    @NotNull
     @JsonView(Views.Small.class)
     @Column(name = "username")
     private String username;
 
+    @NotNull
     @JsonIgnore
     @Column(name = "password")
     private String password;

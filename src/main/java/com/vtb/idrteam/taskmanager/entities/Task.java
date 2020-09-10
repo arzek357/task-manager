@@ -13,6 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +35,14 @@ public class Task {
 //
 //    }
 
+    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(Views.Id.class)
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Column(name = "name", length = 100)
     @JsonView(Views.Small.class)
     private String name;

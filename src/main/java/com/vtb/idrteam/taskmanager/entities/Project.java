@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,12 +25,14 @@ import java.util.Set;
 @Table(name = "projects")
 @NoArgsConstructor
 public class Project {
+    @NotNull
     @JsonView(Views.Id.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @JsonView(Views.Small.class)
     @Column(name = "name")
     private String name;
@@ -38,6 +41,7 @@ public class Project {
     @Column(name = "description")
     private String description;
 
+    @NotNull
     @JsonView(Views.BigProject.class)
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "creator_id", referencedColumnName = "id")
