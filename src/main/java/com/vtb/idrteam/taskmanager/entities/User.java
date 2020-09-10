@@ -6,11 +6,13 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.*;
 import org.hibernate.annotations.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -28,6 +30,7 @@ public class User {
     @JsonView(Views.Id.class)
     private Long id;
 
+    @NotEmpty
     @JsonView(Views.Small.class)
     @Column(name = "username")
     private String username;
