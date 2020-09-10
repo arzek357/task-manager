@@ -5,6 +5,7 @@ import com.vtb.idrteam.taskmanager.entities.User;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.ProjectRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ProjectService {
     private ProjectRepository projectRepository;
     private UserService userService;
@@ -49,7 +51,10 @@ public class ProjectService {
 
     public List<Project> getAllProjectsByUsername(String username) {
         User user = userService.findByUsername(username);
-        return projectRepository.findAllByUsers(user);
+        List<Project> projects = projectRepository.findAllByUsers(user);
+        log.info(String.valueOf(projects));
+//        return projectRepository.findAllByUsers(user);
+        return projects;
     }
 
     public Optional<Project> findById(Long id){
