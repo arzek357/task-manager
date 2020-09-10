@@ -1,34 +1,47 @@
 package com.vtb.idrteam.taskmanager.services;
 
 import com.vtb.idrteam.taskmanager.entities.Role;
-import com.vtb.idrteam.taskmanager.entities.TaskParticipant;
 import com.vtb.idrteam.taskmanager.entities.User;
+import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.UserDto;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
+import com.vtb.idrteam.taskmanager.exceptions.UserCreationException;
+import com.vtb.idrteam.taskmanager.repositories.RoleRepository;
 import com.vtb.idrteam.taskmanager.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
+    private RoleRepository roleRepository;
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public User findById(Long id){
+    public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found, id = " + id));
+    }
+
+    public boolean existsById(Long id) {
+        return userRepository.existsById(id);
+    }
+
+    public User saveOrUpdate(User user) {
+        return userRepository.save(user);
     }
 
     @Override
@@ -42,18 +55,30 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
-//    public List<UserDto> findByTasksParticipants(List<TaskParticipant> participants){
-//        return userRepository.findAllByTasksParticipants(participants);
-//    }
+    public User createUser(UserDto userDto) {
+        log.debug(userDto.toString());
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
+        if (findByUsername(userDto.getUsername()) != null) {
+            throw new UserCreationException("User with this username already exists");
+        }
 
-//    public List<Project> findProjectsByUsername(String username) {
-//        List<UserProject> userProjects = userProjectRepository.findByUser(userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username))));
-//        return userProjects.stream().map(UserProject::getProject).collect(Collectors.toList());
-//    }
-//
-//    public List<ProjectDto> findProjectsDtoByUsername(String username) {
-//        List<UserProject> userProjects = userProjectRepository.findByUser(userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username))));
-//        return userProjects.stream().map(userProject -> new ProjectDto(userProject.getProject().getName(), userProject.getProject().getDescription())).collect(Collectors.toList());
-//    }
+        if(userDto.getPassword() == null || userDto.getPasswordConfirm() == null){
+            throw new UserCreationException("Enter both passwords");
+        }
+
+        if (!userDto.getPassword().equals(userDto.getPasswordConfirm())) {
+            throw new UserCreationException("Passwords doesnt match");
+        }
+
+        User newUser = new User();
+        newUser.setUsername(userDto.getUsername());
+        newUser.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        newUser.setName(userDto.getName());
+        newUser.setSurname(userDto.getSurname());
+        newUser.setEmail(userDto.getEmail());
+        newUser.addRole(roleRepository.findByName("ROLE_USER"));
+
+        return saveOrUpdate(newUser);
+    }
 }
