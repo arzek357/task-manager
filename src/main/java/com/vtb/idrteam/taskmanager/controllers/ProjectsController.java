@@ -2,17 +2,18 @@ package com.vtb.idrteam.taskmanager.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.entities.Project;
-import com.vtb.idrteam.taskmanager.entities.User;
+import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestAddUserToProject;
 import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
+import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
+import com.vtb.idrteam.taskmanager.exceptions.TaskManagerException;
 import com.vtb.idrteam.taskmanager.services.ProjectService;
-import com.vtb.idrteam.taskmanager.services.TaskService;
-import com.vtb.idrteam.taskmanager.services.UserService;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -42,4 +43,14 @@ public class ProjectsController {
     public Project getProjectById(@PathVariable Long id,Principal principal){
         return projectService.findById(id).orElseThrow( () -> new ProjectNotFoundException(String.format("Project with id = %d not found!",id)));
     }
+
+    @PostMapping("/{id}/adduser")
+    @JsonView(Views.Small.class)
+    @ResponseStatus(HttpStatus.CREATED)
+    public Project addUserToProject(@PathVariable Long id,
+                                    @Valid @RequestBody RequestAddUserToProject requestAddUserToProject,
+                                    Principal principal){
+        return projectService.addUserToProject(requestAddUserToProject, id, principal.getName());
+    }
+
 }
