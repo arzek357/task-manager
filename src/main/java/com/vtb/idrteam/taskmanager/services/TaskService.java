@@ -4,6 +4,8 @@ import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.Task;
 import com.vtb.idrteam.taskmanager.entities.TaskParticipant;
 import com.vtb.idrteam.taskmanager.entities.User;
+import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestNewTaskDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestUpdateTaskDto;
 import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.TaskRepository;
@@ -34,11 +36,15 @@ public class TaskService {
     }
 
     @Transactional
-    public Task createNewTask(Long projectId, Task task, String username) {
-        log.info("Got" + task);
+    public Task createNewTask(Long projectId, RequestNewTaskDto requestNewTaskDto, String username) {
+        log.info("Got " + requestNewTaskDto);
         Project project = projectService.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(String.format("Project with id = %d not found!", projectId)));
         User user = userService.findByUsername(username);
+
+        Task task = new Task();
+        task.setName(requestNewTaskDto.getName());
         task.addTaskParticipant(new TaskParticipant(user, TaskParticipant.Authority.CREATOR));
+//        task.addTaskParticipant(new TaskParticipant(user, TaskParticipant.Authority.CREATOR));
 
         project.addTask(task);
         log.info("New Task: " + task);
@@ -48,9 +54,22 @@ public class TaskService {
     }
 
     @Transactional
-    public Task updateTask(Task alteredTask) {
+    public Task updateTask(RequestUpdateTaskDto taskDto) {
+        log.info("Got taskDto: " + taskDto);
+
+        //todo вытягивать старый таск
+        Task alteredTask = new Task();
+        alteredTask.setId(taskDto.getId());
+        alteredTask.setName(taskDto.getName());
+        alteredTask.setDescription(taskDto.getDescription());
+        alteredTask.setState(Task.State.valueOf(taskDto.getState()));
+        alteredTask.setPriority(Task.Priority.valueOf(taskDto.getPriority()));
+        alteredTask.setArchived(taskDto.getArchived());
+//        alteredTask.setTaskParticipants(taskDto.getParticipants());
+
         alteredTask.setUpdatedAt(LocalDateTime.now());
-        notificationService.notifyAboutUpdatedTask(findById(alteredTask.getId()), alteredTask);
+
+//        notificationService.notifyAboutUpdatedTask(findById(alteredTask.getId()), alteredTask);
         return saveOrUpdate(alteredTask);
     }
 
