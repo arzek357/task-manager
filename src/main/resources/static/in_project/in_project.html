@@ -1,47 +1,99 @@
 <div>
-    <h1 ng-model="project">{{project.name}}</h1>
-    <form novalidate ng-submit="submitCreateNewTask()" name="newTaskForm">
-        <div class="card-body" style="display: flex;flex-direction: column;align-items: center;align-content: center;border: 2px solid;">
-            <h3>Создать новую задачу</h3>
-            <div class="form-group col-md-6">
-                <input name="inputName" class="form-control form-control-sm" type="text" placeholder="Название" ng-model="newTask.name" id="newTaskName">
-                <input type="hidden" name="inputName" value="CREATED" class="form-control form-control-sm" type="text" placeholder="Название" ng-model="newTask.state" id="newTaskValue">
-            </div>
-            <div>
-                <button class="btn btn-primary" type="submit">Создать</button>
-            </div>
-        </div>
-    </form>
     <div style="display: flex;justify-content: space-between;margin-top: 30px">
         <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
             <ul class="list-group-item list-group-item-primary"><b>Создана</b>
-                <li ng-repeat="t in CreatedTasks" class="list-group-item">{{t.name}}</li>
+                <li ng-repeat="t in CreatedTasks" class="list-group-item"><a href="#!/in_task/{{t.id}}">{{t.name}}</a>
+                </li>
             </ul>
         </div>
         <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
             <ul class="list-group-item list-group-item-warning"><b>В работе</b>
-                <li ng-repeat="t in InProgressTasks" class="list-group-item">{{t.name}}</li>
+                <li ng-repeat="t in InProgressTasks" class="list-group-item"><a
+                        href="#!/in_task/{{t.id}}">{{t.name}}</a></li>
             </ul>
         </div>
         <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
             <ul class="list-group-item list-group-item-info"><b>На проверке</b>
-                <li ng-repeat="t in InReviewTasks" class="list-group-item">{{t.name}}</li>
+                <li ng-repeat="t in InReviewTasks" class="list-group-item"><a href="#!/in_task/{{t.id}}">{{t.name}}</a>
+                </li>
             </ul>
         </div>
         <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
             <ul class="list-group-item list-group-item-dark"><b>Возвращена на доработку</b>
-                <li ng-repeat="t in InRework" class="list-group-item">{{t.name}}</li>
+                <li ng-repeat="t in InReworkTasks" class="list-group-item"><a href="#!/in_task/{{t.id}}">{{t.name}}</a>
+                </li>
             </ul>
         </div>
         <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
             <ul class="list-group-item list-group-item-success"><b>Завершена</b>
-                <li ng-repeat="t in CompletedTasks" class="list-group-item">{{t.name}}</li>
+                <li ng-repeat="t in CompletedTasks" class="list-group-item"><a href="#!/in_task/{{t.id}}">{{t.name}}</a>
+                </li>
             </ul>
         </div>
         <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
             <ul class="list-group-item list-group-item-danger"><b>Отменена</b>
-                <li ng-repeat="t in CanceledTasks" class="list-group-item">{{t.name}}</li>
+                <li ng-repeat="t in CanceledTasks" class="list-group-item"><a href="#!/in_task/{{t.id}}">{{t.name}}</a>
+                </li>
             </ul>
         </div>
+    </div>
+    <h1 ng-model="project">{{project.name}}</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Никнейм</th>
+            <th scope="col">Роль</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+        </tr>
+        </tbody>
+    </table>
+    <div style="display: flex;justify-content: center;">
+        <form novalidate ng-submit="submitCreateNewTask()" name="newTaskForm">
+            <div class="card-body"
+                 style="display: flex;flex-direction: column;align-items: center;align-content: center;border: 2px solid; width: 400px;margin-right: 40px">
+                <h3>Создать новую задачу</h3>
+                <div class="form-group col-md-6">
+                    <input name="inputName" class="form-control form-control-sm" type="text" placeholder="Название"
+                           ng-model="newTask.name" id="newTaskName">
+                    <input type="hidden" name="inputName" value="CREATED" class="form-control form-control-sm" type="text"
+                           placeholder="Название" ng-model="newTask.state" id="newTaskValue">
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit">Создать</button>
+                </div>
+            </div>
+        </form>
+        <form novalidate ng-submit="submitCreateNewTask()" name="newTaskForm">
+            <div class="card-body"
+                 style="display: flex;flex-direction: column;align-items: center;align-content: center;border: 2px solid; width: 400px;margin-right: 40px">
+                <h3>Пригласить пользователя</h3>
+                <div class="form-group col-md-6">
+                    <input name="inputName" class="form-control form-control-sm" type="text" placeholder="Никнейм"
+                           ng-model="newTask.name" id="newTaskName">
+                    <input type="hidden" name="inputName" value="CREATED" class="form-control form-control-sm" type="text"
+                           placeholder="Название" ng-model="newTask.state" id="newTaskValue">
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit">Создать</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

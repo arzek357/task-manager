@@ -38,7 +38,6 @@ public class TaskService {
         log.info("Got" + task);
         Project project = projectService.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(String.format("Project with id = %d not found!", projectId)));
         User user = userService.findByUsername(username);
-        task.setState(Task.State.CREATED);
         task.addTaskParticipant(new TaskParticipant(user, TaskParticipant.Authority.CREATOR));
 
         project.addTask(task);
