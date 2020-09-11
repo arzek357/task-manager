@@ -1,15 +1,18 @@
 package com.vtb.idrteam.taskmanager.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.entities.Project;
-import com.vtb.idrteam.taskmanager.entities.dtos.ProjectDto;
+import com.vtb.idrteam.taskmanager.entities.User;
+import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
 import com.vtb.idrteam.taskmanager.services.ProjectService;
+import com.vtb.idrteam.taskmanager.services.TaskService;
 import com.vtb.idrteam.taskmanager.services.UserService;
+import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.attribute.UserPrincipal;
 import java.security.Principal;
 import java.util.List;
 
@@ -19,28 +22,24 @@ import java.util.List;
 @Slf4j
 public class ProjectsController {
     private ProjectService projectService;
-    private UserService userService;
 
-    //    @GetMapping("/byuser/{id}")
-    //    public List<Project> getAllProjects(@PathVariable Long id) {
+
     @GetMapping
-//    public List<Project> getAllProjects(@RequestParam(name = "user_id", required = false) Long userId) {
-    public List<ProjectDto> getAllProjects(Principal principal) {
-//        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-//        params.add("user_id", userId.toString());
-//        ProjectFilter projectFilter = new ProjectFilter(params);
-//        return projectService.findAll(projectFilter.getSpec());
-
-        System.out.println(principal.getName());
-        return userService.findProjectsDtoByUsername(principal.getName());
+    @JsonView(Views.Small.class)
+    public List<Project> getAllProjects(Principal principal) {
+        return projectService.getAllProjectsByUsername(principal.getName());
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Project createNewProject(@RequestBody Project project, UserPrincipal principal) {
-        if (project.getId() != null) {
-            project.setId(null);
-        }
+    @JsonView(Views.Small.class)
+    public Project createNewProject(@RequestBody Project project, Principal principal) {
         return projectService.createNewProject(project, principal.getName());
+    }
+
+    @GetMapping("/{id}")
+    @JsonView(Views.BigProject.class)
+    public Project getProjectById(@PathVariable Long id,Principal principal){
+        return projectService.findById(id).orElseThrow( () -> new ProjectNotFoundException(String.format("Project with id = %d not found!",id)));
     }
 }

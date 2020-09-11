@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Data
 @Table(name = "tasksauthorities")
 @NoArgsConstructor
-public class UserTaskAuthority {
+public class TaskAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

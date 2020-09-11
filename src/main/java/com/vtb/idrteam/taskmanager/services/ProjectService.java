@@ -2,55 +2,62 @@ package com.vtb.idrteam.taskmanager.services;
 
 import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.User;
-import com.vtb.idrteam.taskmanager.entities.bindtables.UserProject;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.ProjectRepository;
-import com.vtb.idrteam.taskmanager.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ProjectService {
     private ProjectRepository projectRepository;
-    private UserRepository userRepository;
+    private UserService userService;
 
-    public List<Project> findAll(){
+    public List<Project> findAll() {
         return projectRepository.findAll();
     }
 
-    public List<Project> findAll(Specification<Project> spec){
+    public List<Project> findAll(Specification<Project> spec) {
         return projectRepository.findAll((Sort) spec);
+    }
+
+    public void deleteById(Long id) {
+        projectRepository.deleteById(id);
+    }
+
+    public Project saveOrUpdate(Project project) {
+        return projectRepository.save(project);
+    }
+
+    public Project createNewProject(Project project, String username) {
+        User creator =  userService.findByUsername(username);
+        if (project.getDescription()==null){
+            project.setDescription("No description");
+        }
+//        project.setCreator(creator);
+//        project.getUsers().add(creator);
+//        creator.getProjects().add(project);
+        creator.addProject(project);
+        return saveOrUpdate(project);
+    }
+
+    public List<Project> getAllProjectsByUsername(String username) {
+        User user = userService.findByUsername(username);
+        List<Project> projects = projectRepository.findAllByUsers(user);
+        log.info(String.valueOf(projects));
+//        return projectRepository.findAllByUsers(user);
+        return projects;
     }
 
     public Optional<Project> findById(Long id){
         return projectRepository.findById(id);
-    }
-
-    public void deleteById(Long id){
-        projectRepository.deleteById(id);
-    }
-
-    public Project saveOrUpdate(Project project){
-        return projectRepository.save(project);
-    }
-
-    public Project createNewProject(Project project, String username){
-        User creator =  userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
-        List<UserProject> userProjects = List.of(
-                new UserProject(creator, project, true)
-        );
-
-        project.setUserProjects(userProjects);
-
-        return saveOrUpdate(project);
     }
 }

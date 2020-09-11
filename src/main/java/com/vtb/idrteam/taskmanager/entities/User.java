@@ -1,84 +1,111 @@
 package com.vtb.idrteam.taskmanager.entities;
 
-import com.vtb.idrteam.taskmanager.entities.bindtables.UserProject;
-import com.vtb.idrteam.taskmanager.entities.bindtables.UserTask;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.vtb.idrteam.taskmanager.utils.Views;
+import lombok.*;
+import org.hibernate.annotations.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString(of ={"id", "username", "name", "surname", "email", "roles"})
+@EqualsAndHashCode(exclude = {"projects", "notifications"})
 @Table(name = "users")
 @NoArgsConstructor
 public class User {
+    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @JsonView(Views.Id.class)
     private Long id;
 
+    @NotEmpty
+    @NotNull
+    @JsonView(Views.Small.class)
     @Column(name = "username")
     private String username;
 
+    @NotNull
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
+    @JsonView(Views.Small.class)
     @Column(name = "name")
     private String name;
 
+    @JsonView(Views.Small.class)
     @Column(name = "surname")
     private String surname;
 
+    @JsonView(Views.FullUser.class)
     @Column(name = "email")
     private String email;
 
+    @JsonView(Views.FullUser.class)
     @ManyToMany
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
+    @JsonView(Views.FullUser.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
+    @ColumnDefault("current_timestamp")
     private LocalDateTime createdAt;
 
+    @JsonView(Views.FullUser.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @UpdateTimestamp
     @Column(name = "updated_at")
+    @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
 
-//    @ManyToMany
-//    @JoinTable(name = "users_projects",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "project_id"))
-//    private List<Project> projects;
+    @JsonView(Views.FullUser.class)
+    @ManyToMany
+    @JoinTable(name = "users_projects",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id"))
+    private Set<Project> projects = new HashSet<>();
 
+    @JsonView(Views.FullUser.class)
+    @ManyToMany
+    @JoinTable(name = "users_notifications",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "notification_id"))
+    private Set<Notification> notifications = new HashSet<>();
+
+    @JsonView(Views.FullUser.class)
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    private List<UserProject> userProjects = new ArrayList<>();
+    private List<TaskParticipant> tasksParticipants = new ArrayList<>();
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<UserTask> userTasks = new ArrayList<>();
+    public void addProject(Project project){
+        projects.add(project);
+        project.setCreator(this);
+        project.getUsers().add(this);
+    }
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<Notification> notifications = new ArrayList<>();
+    public void addRole(Role role){
+        roles.add(role);
+    }
 }
