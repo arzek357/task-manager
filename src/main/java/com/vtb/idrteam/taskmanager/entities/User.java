@@ -90,14 +90,14 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "notification_id"))
     private Set<Notification> notifications = new HashSet<>();
 
-    @JsonView(Views.FullUser.class)
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<TaskParticipant> tasksParticipants = new ArrayList<>();
+//    @JsonView(Views.FullUser.class)
+//    @OneToMany(
+//            mappedBy = "user",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
+//            fetch = FetchType.LAZY
+//    )
+//    private List<TaskParticipant> tasksParticipants = new ArrayList<>();
 
     public void addProject(Project project){
         projects.add(project);

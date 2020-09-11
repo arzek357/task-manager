@@ -20,12 +20,6 @@ public class TasksController {
     private TaskService taskService;
     private TaskParticipantService taskParticipantService;
 
-    @GetMapping("/{id}/participants")
-    @JsonView(Views.BigUser.class)
-    public List<User> getTaskParticipants(@PathVariable Long id) {
-        return taskService.findTaskParticipants(id);
-    }
-
     @GetMapping("/{id}")
     public Task getTaskById(@PathVariable Long id){
         return taskService.findById(id);

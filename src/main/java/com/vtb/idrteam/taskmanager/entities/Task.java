@@ -17,7 +17,7 @@ import java.util.List;
 
 @Entity
 @Data
-@ToString(of = {"id", "name", "description", "deadlineTime", "createdAt", "updatedAt", "archived", "state", "project"})
+//@ToString(of = {"id", "name", "description", "deadlineTime", "createdAt", "updatedAt", "archived", "state", "project"})
 @Table(name = "tasks")
 @NoArgsConstructor
 public class Task {
@@ -100,7 +100,7 @@ public class Task {
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.LAZY)
-    private List<TaskParticipant> taskParticipants;
+    private List<TaskParticipant> taskParticipants = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(
@@ -125,4 +125,13 @@ public class Task {
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "task_state_id", referencedColumnName = "id")
 //    private TaskStatus taskStatus;
+
+//    public void addTaskParticipant(User user, TaskParticipant.Authority authority){
+//        this.taskParticipants.add(new TaskParticipant(this, user, authority));
+//    }
+
+    public void addTaskParticipant(TaskParticipant taskParticipant){
+//        taskParticipant.setTask(this);
+        taskParticipants.add(taskParticipant);
+    }
 }
