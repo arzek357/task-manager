@@ -1,4 +1,5 @@
 <div>
+    <h1 ng-model="project" style="text-align: center">{{project.name}}</h1>
     <div style="display: flex;justify-content: space-between;margin-top: 30px">
         <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
             <ul class="list-group-item list-group-item-primary"><b>Создана</b>
@@ -37,7 +38,6 @@
             </ul>
         </div>
     </div>
-    <h1 ng-model="project">{{project.name}}</h1>
     <table class="table">
         <thead>
         <tr>
@@ -59,9 +59,9 @@
                  style="display: flex;flex-direction: column;align-items: center;align-content: center;border: 2px solid; width: 400px;margin-right: 40px">
                 <h3>Создать новую задачу</h3>
                 <div class="form-group col-md-6">
-                    <input name="name" class="form-control form-control-sm" type="text" placeholder="Название"
+                    <input name="taskNameInput" class="form-control form-control-sm" type="text" placeholder="Название"
                            ng-model="newTask.name" id="newTaskName">
-                    <input name="inputState" class="form-control form-control-sm" type="hidden"
+                    <input name="taskStateInput" class="form-control form-control-sm" type="hidden"
                            ng-model="newTask.state" ng-init="newTask.state='CREATED'" id="newTaskState">
                 </div>
                 <div>
@@ -69,18 +69,18 @@
                 </div>
             </div>
         </form>
-<!--        <form novalidate ng-submit="submitCreateNewTask()" name="newTaskForm">-->
-<!--            <div class="card-body"-->
-<!--                 style="display: flex;flex-direction: column;align-items: center;align-content: center;border: 2px solid; width: 400px;margin-right: 40px">-->
-<!--                <h3>Пригласить пользователя</h3>-->
-<!--                <div class="form-group col-md-6">-->
-<!--                    <input name="inputName" class="form-control form-control-sm" type="text" placeholder="Никнейм"-->
-<!--                           ng-model="newTask.name" id="username">-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                    <button class="btn btn-primary" type="submit">Создать</button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </form>-->
+        <form novalidate ng-submit="submitAddNewUser()" name="newTaskForm">
+            <div class="card-body"
+                 style="display: flex;flex-direction: column;align-items: center;align-content: center;border: 2px solid; width: 400px;margin-right: 40px">
+                <h3>Пригласить пользователя</h3>
+                <div class="form-group col-md-6">
+                    <input name="usernameInput" class="form-control form-control-sm" type="text" placeholder="Никнейм"
+                           ng-model="newUser.username" id="newUser">
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit">Создать</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

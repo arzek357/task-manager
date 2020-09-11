@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestAddUserToProject;
 import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
+import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
+import com.vtb.idrteam.taskmanager.exceptions.TaskManagerException;
 import com.vtb.idrteam.taskmanager.services.ProjectService;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.AllArgsConstructor;
@@ -43,8 +45,9 @@ public class ProjectsController {
     }
 
     @PostMapping("/{id}/adduser")
+    @JsonView(Views.Small.class)
     @ResponseStatus(HttpStatus.CREATED)
-    public Project addUSerToProject(@PathVariable Long id,
+    public Project addUserToProject(@PathVariable Long id,
                                     @Valid @RequestBody RequestAddUserToProject requestAddUserToProject,
                                     Principal principal){
         return projectService.addUserToProject(requestAddUserToProject, id, principal.getName());

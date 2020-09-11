@@ -9,6 +9,7 @@ import com.vtb.idrteam.taskmanager.services.TaskParticipantService;
 import com.vtb.idrteam.taskmanager.services.TaskService;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.AllArgsConstructor;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
