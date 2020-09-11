@@ -5,6 +5,7 @@
             <h3>Создать новую задачу</h3>
             <div class="form-group col-md-6">
                 <input name="inputName" class="form-control form-control-sm" type="text" placeholder="Название" ng-model="newTask.name" id="newTaskName">
+                <input type="hidden" name="inputName" value="CREATED" class="form-control form-control-sm" type="text" placeholder="Название" ng-model="newTask.state" id="newTaskValue">
             </div>
             <div>
                 <button class="btn btn-primary" type="submit">Создать</button>

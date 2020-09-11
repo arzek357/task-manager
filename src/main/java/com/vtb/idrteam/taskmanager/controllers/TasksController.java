@@ -10,6 +10,7 @@ import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -33,8 +34,8 @@ public class TasksController {
     //Создание нового таска в проекте. Обрабатываемый id - id проекта
     @PostMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
     @JsonView(Views.Small.class)
-    public Task createNewTaskInProject(@RequestBody Task task, @PathVariable Long id) {
-        return taskService.createNewTask(id, task);
+    public Task createNewTaskInProject(@RequestBody Task task, @PathVariable Long id, Principal principal) {
+        return taskService.createNewTask(id, task, principal.getName());
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json")

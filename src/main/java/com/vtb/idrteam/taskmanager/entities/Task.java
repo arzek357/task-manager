@@ -36,7 +36,6 @@ public class Task {
 //
 //    }
 
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(Views.Id.class)
@@ -105,7 +104,6 @@ public class Task {
     @Column(name="state")
     @Enumerated(EnumType.STRING)
     private State state;
-
     //    @JsonView(Views.BigTask.class)
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "task_state_id", referencedColumnName = "id")
