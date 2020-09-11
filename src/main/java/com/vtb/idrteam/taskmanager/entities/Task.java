@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.entities.simpletables.TaskStatus;
 import com.vtb.idrteam.taskmanager.utils.Views;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,15 +18,18 @@ import java.util.List;
 
 @Entity
 @Data
-@ToString(of = {"id", "name", "description", "deadlineTime", "createdAt", "updatedAt", "archived", "taskStatus", "project"})
+@ToString(of = {"id", "name", "description", "deadlineTime", "createdAt", "updatedAt", "archived", "state", "project"})
 @Table(name = "tasks")
 @NoArgsConstructor
 public class Task {
     //Задачи могут иметь статусы: создана, в работе, передана на проверку, возвращена на доработку, завершена, отменена.
     //CREATED, IN_PROGRESS, ON_REVIEW, ON_REWORK, COMPLETED, CANCELED
-//    public enum Status {
-//        CREATED, IN_PROCESS, IN_REVIEW, IN_REWORK, COMPLETED, CANCELED;
-//    }
+    @AllArgsConstructor
+    @Getter
+    public enum State {
+        CREATED("Cоздано"), IN_PROGRESS("В работе"), IN_REVIEW("Передана на проверку"), IN_REWORK("Возвращена на доработку"), COMPLETED("Завершена"), CANCELED("Отменена");
+        private String rus;
+    }
 
     //Приоритет задачи имеет 6 уровней: в планах, очень низкий, низкий, средний, высокий, очень высокий.
 //    public enum Priority{
@@ -100,8 +101,13 @@ public class Task {
     )
     private List<Notification> notifications = new ArrayList<>();
 
-    @JsonView(Views.BigTask.class)
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "task_state_id", referencedColumnName = "id")
-    private TaskStatus taskStatus;
+    @JsonView(Views.Small.class)
+    @Column(name="state")
+    @Enumerated(EnumType.STRING)
+    private State state;
+
+    //    @JsonView(Views.BigTask.class)
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "task_state_id", referencedColumnName = "id")
+//    private TaskStatus taskStatus;
 }

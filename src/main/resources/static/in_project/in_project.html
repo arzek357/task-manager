@@ -14,39 +14,32 @@
     <div style="display: flex;justify-content: space-between;margin-top: 30px">
         <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
             <ul class="list-group-item list-group-item-primary"><b>Создана</b>
-                <li class="list-group-item">task #</li>
-                <li class="list-group-item">task #</li>
-                <li class="list-group-item">task #</li>
+                <li ng-repeat="t in CreatedTasks" class="list-group-item">{{t.name}}</li>
             </ul>
         </div>
         <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
             <ul class="list-group-item list-group-item-warning"><b>В работе</b>
-                <li class="list-group-item">task #</li>
-                <li class="list-group-item">task #</li>
+                <li ng-repeat="t in InProgressTasks" class="list-group-item">{{t.name}}</li>
             </ul>
         </div>
         <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
             <ul class="list-group-item list-group-item-info"><b>На проверке</b>
-                <li class="list-group-item">task #</li>
-                <li class="list-group-item">task #</li>
+                <li ng-repeat="t in InReviewTasks" class="list-group-item">{{t.name}}</li>
             </ul>
         </div>
         <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
             <ul class="list-group-item list-group-item-dark"><b>Возвращена на доработку</b>
-                <li class="list-group-item">task #</li>
-                <li class="list-group-item">task #</li>
+                <li ng-repeat="t in InRework" class="list-group-item">{{t.name}}</li>
             </ul>
         </div>
         <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
             <ul class="list-group-item list-group-item-success"><b>Завершена</b>
-                <li class="list-group-item">task #</li>
-                <li class="list-group-item">task #</li>
+                <li ng-repeat="t in CompletedTasks" class="list-group-item">{{t.name}}</li>
             </ul>
         </div>
         <div style="width: 20rem;margin-left: 10px;margin-right: 10px;display: flex;flex-direction: column">
             <ul class="list-group-item list-group-item-danger"><b>Отменена</b>
-                <li class="list-group-item">task #</li>
-                <li class="list-group-item">task #</li>
+                <li ng-repeat="t in CanceledTasks" class="list-group-item">{{t.name}}</li>
             </ul>
         </div>
     </div>

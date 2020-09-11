@@ -68,9 +68,9 @@ public class NotificationService {
             message.append("Старое описание: \n").append(oldTask.getDescription()).append("\n");
             message.append("Новое описание: \n").append(alteredTask.getDescription()).append("\n");
         }
-        if (!oldTask.getTaskStatus().getCodename().equals(alteredTask.getTaskStatus().getCodename())){
-            message.append("Старый статус: ").append(oldTask.getTaskStatus().getName()).append("\n");
-            message.append("Новый статус: ").append(alteredTask.getTaskStatus().getName()).append("\n");
+        if (!oldTask.getState().equals(alteredTask.getState())){
+            message.append("Старый статус: ").append(oldTask.getState().getRus()).append("\n");
+            message.append("Новый статус: ").append(alteredTask.getState().getRus()).append("\n");
         }
         if (oldTask.getDeadlineTime() != alteredTask.getDeadlineTime()){
             message.append("Старый срок сдачи: ").append(oldTask.getDeadlineTime()).append("\n");
@@ -89,7 +89,7 @@ public class NotificationService {
         message.append("Описание задачи: \n")
                 .append(newTask.getDescription()).append("\n");
         message.append("Статус задачи: ")
-                .append(newTask.getTaskStatus().getName()).append("\n");
+                .append(newTask.getState().getRus()).append("\n");
         message.append("Срок сдачи: ")
                 .append(newTask.getDeadlineTime());
 
