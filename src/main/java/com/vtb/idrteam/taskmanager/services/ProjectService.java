@@ -66,11 +66,16 @@ public class ProjectService {
     }
 
     public Project addUserToProject(RequestAddUserToProject requestAddUserToProject, Long projectId, String principalName) {
+        User newUserInProject = userService.findByUsername(requestAddUserToProject.getUsername());
+        if (newUserInProject == null){
+            throw new ResourceNotFoundException("User not found");
+        }
+
         User executor = userService.findByUsername(principalName);
-        Project project = findById(projectId).orElseThrow(() -> new ResourceNotFoundException("Project not fond"));
+        Project project = findById(projectId).orElseThrow(() -> new ResourceNotFoundException("Project not found"));
 
         if (executor.equals(project.getCreator())){
-            project.addUser(userService.findByUsername(requestAddUserToProject.getUsername()));
+            project.addUser(newUserInProject);
         } else {
             throw new TaskManagerException("User " + executor.getUsername() + "cant add other user to project");
         }
