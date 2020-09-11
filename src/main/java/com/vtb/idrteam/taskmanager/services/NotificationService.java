@@ -85,7 +85,7 @@ public class NotificationService {
 
     private String makeNotificationTextForNewTask(Task newTask){
         StringBuilder message = new StringBuilder();
-
+        System.out.println(newTask.getState());
         message.append("Описание задачи: \n")
                 .append(newTask.getDescription()).append("\n");
         message.append("Статус задачи: ")

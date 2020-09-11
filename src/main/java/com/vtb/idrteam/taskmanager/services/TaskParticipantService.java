@@ -18,6 +18,10 @@ public class TaskParticipantService {
     private UserService userService;
 //    private TaskService taskService;
 
+    public TaskParticipant saveOrUpdate(TaskParticipant taskParticipant){
+        return taskParticipantRepository.save(taskParticipant);
+    }
+
     public TaskParticipant findById(Long id){
         return taskParticipantRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Participant not found"));
     }
@@ -26,17 +30,17 @@ public class TaskParticipantService {
 //        return taskParticipantRepository.findAllByUser(userService.findByUsername(username));
 //    }
 
-    public List<TaskParticipant> findByTask(Task task){
-        return taskParticipantRepository.findAllByTask(task);
-    }
-
-    public List<User> findUsersByTask(Task task){
-        List<TaskParticipant> participants = taskParticipantRepository.findAllByTask(task);
-        List<User> users = new ArrayList<>();
-        for (TaskParticipant tp : participants){
-            users.add(tp.getUser());
-        }
-
-        return users;
-    }
+//    public List<TaskParticipant> findByTask(Task task){
+//        return taskParticipantRepository.findAllByTask(task);
+//    }
+//
+//    public List<User> findUsersByTask(Task task){
+//        List<TaskParticipant> participants = taskParticipantRepository.findAllByTask(task);
+//        List<User> users = new ArrayList<>();
+//        for (TaskParticipant tp : participants){
+//            users.add(tp.getUser());
+//        }
+//
+//        return users;
+//    }
 }

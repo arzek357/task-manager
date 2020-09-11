@@ -2,11 +2,15 @@ package com.vtb.idrteam.taskmanager.services;
 
 import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.Task;
+import com.vtb.idrteam.taskmanager.entities.TaskParticipant;
 import com.vtb.idrteam.taskmanager.entities.User;
+import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestNewTaskDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestUpdateTaskDto;
 import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.TaskRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +19,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class TaskService {
     private TaskRepository taskRepository;
     private ProjectService projectService;
@@ -31,36 +36,45 @@ public class TaskService {
     }
 
     @Transactional
-    public Task createNewTask(Long projectId, Task task) {
+    public Task createNewTask(Long projectId, RequestNewTaskDto requestNewTaskDto, String username) {
+        log.info("Got " + requestNewTaskDto);
         Project project = projectService.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(String.format("Project with id = %d not found!", projectId)));
-        project.addTask(task);
+        User user = userService.findByUsername(username);
 
-        notificationService.notifyAboutNewTask(task);
+        Task task = new Task();
+        task.setName(requestNewTaskDto.getName());
+        task.addTaskParticipant(new TaskParticipant(user, TaskParticipant.Authority.CREATOR));
+//        task.addTaskParticipant(new TaskParticipant(user, TaskParticipant.Authority.CREATOR));
+
+        project.addTask(task);
+        log.info("New Task: " + task);
+
+//        notificationService.notifyAboutNewTask(task);
         return saveOrUpdate(task);
     }
 
     @Transactional
-    public Task updateTask(Task alteredTask) {
+    public Task updateTask(RequestUpdateTaskDto taskDto) {
+        log.info("Got taskDto: " + taskDto);
+
+        //todo вытягивать старый таск
+        Task alteredTask = new Task();
+        alteredTask.setId(taskDto.getId());
+        alteredTask.setName(taskDto.getName());
+        alteredTask.setDescription(taskDto.getDescription());
+        alteredTask.setState(Task.State.valueOf(taskDto.getState()));
+        alteredTask.setPriority(Task.Priority.valueOf(taskDto.getPriority()));
+        alteredTask.setArchived(taskDto.getArchived());
+//        alteredTask.setTaskParticipants(taskDto.getParticipants());
+
         alteredTask.setUpdatedAt(LocalDateTime.now());
-        notificationService.notifyAboutUpdatedTask(findById(alteredTask.getId()), alteredTask);
+
+//        notificationService.notifyAboutUpdatedTask(findById(alteredTask.getId()), alteredTask);
         return saveOrUpdate(alteredTask);
     }
 
     public Task saveOrUpdate(Task task) {
         return taskRepository.save(task);
     }
-
-    public List<User> findTaskParticipants(Long taskId) {
-        Task task = findById(taskId);
-        taskParticipantService.findByTask(task);
-//        List<TaskParticipant> taskParticipants = taskParticipantService.findByTask(findById(taskId));
-//        List<User> users = new ArrayList<>();
-//        for (TaskParticipant tp :
-//                taskParticipants) {
-//            users.add(tp.getUser());
-//        }
-        return taskParticipantService.findUsersByTask(task);
-    }
-
 
 }

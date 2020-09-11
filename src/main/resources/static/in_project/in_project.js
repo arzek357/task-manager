@@ -4,7 +4,7 @@ angular.module('app').controller('in_projectController', function ($scope, $http
     $scope.CreatedTasks=[];
     $scope.InProgressTasks=[];
     $scope.InReviewTasks=[];
-    $scope.InRework=[];
+    $scope.InReworkTasks=[];
     $scope.CompletedTasks=[];
     $scope.CanceledTasks=[];
 
@@ -20,7 +20,7 @@ angular.module('app').controller('in_projectController', function ($scope, $http
     $scope.submitCreateNewTask = function () {
         $http.post(contextPath + '/api/v1/tasks/'+projectId, $scope.newTask)
             .then(function (response) {
-                $scope.project.tasks.push(response.data);
+                $scope.CreatedTasks.push(response.data);
                 document.getElementById("newTaskName").value="";
                 delete $scope.newTask;
             });
@@ -37,7 +37,7 @@ angular.module('app').controller('in_projectController', function ($scope, $http
             $scope.InReviewTasks.push(item);
         }
         if(item.state === 'IN_REWORK'){
-            $scope.InRework.push(item);
+            $scope.InReworkTasks.push(item);
         }
         if(item.state === 'COMPLETED'){
             $scope.CompletedTasks.push(item);
