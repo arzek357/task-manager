@@ -31,7 +31,7 @@ public class TaskService {
     }
 
     @Transactional
-    public Task createNewTask(Long projectId, Task task) {
+    public Task createNewTask(Long projectId, Task task,String username) {
         Project project = projectService.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(String.format("Project with id = %d not found!", projectId)));
         project.addTask(task);
 
