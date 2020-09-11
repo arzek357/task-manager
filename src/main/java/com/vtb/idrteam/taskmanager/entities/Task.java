@@ -3,7 +3,6 @@ package com.vtb.idrteam.taskmanager.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.vtb.idrteam.taskmanager.entities.simpletables.TaskStatus;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -27,20 +26,31 @@ public class Task {
     @AllArgsConstructor
     @Getter
     public enum State {
-        CREATED("Cоздано"), IN_PROGRESS("В работе"), IN_REVIEW("Передана на проверку"), IN_REWORK("Возвращена на доработку"), COMPLETED("Завершена"), CANCELED("Отменена");
+        CREATED("Cоздано"),
+        IN_PROGRESS("В работе"),
+        IN_REVIEW("Передана на проверку"),
+        IN_REWORK("Возвращена на доработку"),
+        COMPLETED("Завершена"),
+        CANCELED("Отменена");
         private String rus;
     }
 
     //Приоритет задачи имеет 6 уровней: в планах, очень низкий, низкий, средний, высокий, очень высокий.
-//    public enum Priority{
-//
-//    }
+    @AllArgsConstructor
+    @Getter
+    public enum Priority{
+        LOWEST("Очень низкий"),
+        LOW("Низкий"),
+        MEDIUM("Средний"),
+        HIGH("Высокий"),
+        HIGHEST("Самый высокий");
+        private String rus;
+    }
 
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(Views.Id.class)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @NotNull
@@ -105,6 +115,11 @@ public class Task {
     @Column(name="state")
     @Enumerated(EnumType.STRING)
     private State state;
+
+    @JsonView(Views.BigTask.class)
+    @Column(name="priority")
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
 
     //    @JsonView(Views.BigTask.class)
 //    @OneToOne(cascade = CascadeType.ALL)

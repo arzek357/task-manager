@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Data
 @Table(name = "tasksauthorities")
 @NoArgsConstructor
+@Deprecated
 public class TaskAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
