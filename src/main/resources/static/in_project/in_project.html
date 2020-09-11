@@ -41,26 +41,15 @@
     <table class="table">
         <thead>
         <tr>
-            <th scope="col">#</th>
             <th scope="col">Никнейм</th>
             <th scope="col">Роль</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
+        <tr ng-repeat="u in project.users">
+            <td>{{u.username}}</td>
+            <td ng-if="u.username==project.creator.username">Создатель</td>
+            <td ng-if="u.username!=project.creator.username">Пользователь</td>
         </tr>
         </tbody>
     </table>
@@ -70,30 +59,28 @@
                  style="display: flex;flex-direction: column;align-items: center;align-content: center;border: 2px solid; width: 400px;margin-right: 40px">
                 <h3>Создать новую задачу</h3>
                 <div class="form-group col-md-6">
-                    <input name="inputName" class="form-control form-control-sm" type="text" placeholder="Название"
+                    <input name="name" class="form-control form-control-sm" type="text" placeholder="Название"
                            ng-model="newTask.name" id="newTaskName">
-                    <input type="hidden" name="inputName" value="CREATED" class="form-control form-control-sm" type="text"
-                           placeholder="Название" ng-model="newTask.state" id="newTaskValue">
+                    <input name="inputState" class="form-control form-control-sm" type="hidden"
+                           ng-model="newTask.state" ng-init="newTask.state='CREATED'" id="newTaskState">
                 </div>
                 <div>
                     <button class="btn btn-primary" type="submit">Создать</button>
                 </div>
             </div>
         </form>
-        <form novalidate ng-submit="submitCreateNewTask()" name="newTaskForm">
-            <div class="card-body"
-                 style="display: flex;flex-direction: column;align-items: center;align-content: center;border: 2px solid; width: 400px;margin-right: 40px">
-                <h3>Пригласить пользователя</h3>
-                <div class="form-group col-md-6">
-                    <input name="inputName" class="form-control form-control-sm" type="text" placeholder="Никнейм"
-                           ng-model="newTask.name" id="newTaskName">
-                    <input type="hidden" name="inputName" value="CREATED" class="form-control form-control-sm" type="text"
-                           placeholder="Название" ng-model="newTask.state" id="newTaskValue">
-                </div>
-                <div>
-                    <button class="btn btn-primary" type="submit">Создать</button>
-                </div>
-            </div>
-        </form>
+<!--        <form novalidate ng-submit="submitCreateNewTask()" name="newTaskForm">-->
+<!--            <div class="card-body"-->
+<!--                 style="display: flex;flex-direction: column;align-items: center;align-content: center;border: 2px solid; width: 400px;margin-right: 40px">-->
+<!--                <h3>Пригласить пользователя</h3>-->
+<!--                <div class="form-group col-md-6">-->
+<!--                    <input name="inputName" class="form-control form-control-sm" type="text" placeholder="Никнейм"-->
+<!--                           ng-model="newTask.name" id="username">-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <button class="btn btn-primary" type="submit">Создать</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </form>-->
     </div>
 </div>
