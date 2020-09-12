@@ -2,7 +2,7 @@ package com.vtb.idrteam.taskmanager.services;
 
 import com.vtb.idrteam.taskmanager.entities.Role;
 import com.vtb.idrteam.taskmanager.entities.User;
-import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.UserDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.UserDto;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.exceptions.UserCreationException;
 import com.vtb.idrteam.taskmanager.repositories.RoleRepository;

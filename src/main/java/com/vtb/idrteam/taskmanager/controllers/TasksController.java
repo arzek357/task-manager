@@ -2,8 +2,8 @@ package com.vtb.idrteam.taskmanager.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.entities.Task;
-import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestNewTaskDto;
-import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestUpdateTaskDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestNewTaskDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestUpdateTaskDto;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.services.TaskParticipantService;
 import com.vtb.idrteam.taskmanager.services.TaskService;

@@ -32,11 +32,11 @@ public class Project {
 
 //    @NotNull
     @JsonView(Views.Small.class)
-    @Column(name = "name")
+    @Column(name = "name", length = 100)
     private String name;
 
     @JsonView(Views.Small.class)
-    @Column(name = "description")
+    @Column(name = "description", length = 500)
     private String description;
 
 //    @NotNull

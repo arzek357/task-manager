@@ -2,7 +2,8 @@ package com.vtb.idrteam.taskmanager.services;
 
 import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.User;
-import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestAddUserToProject;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestAddUserToProject;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestNewProjectDto;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.exceptions.TaskManagerException;
 import com.vtb.idrteam.taskmanager.repositories.ProjectRepository;
@@ -10,9 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,16 +39,22 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
-    public Project createNewProject(Project project, String username) {
+    public Project createNewProject(RequestNewProjectDto requestNewProjectDto, String username) {
+        log.debug("Got requestNewProjectDto: " + requestNewProjectDto);
         User creator = userService.findByUsername(username);
+
+        Project project = new Project();
+        project.setName(requestNewProjectDto.getName());
         project.setCreator(creator);
-        if (project.getDescription() == null) {
+
+        if (requestNewProjectDto.getDescription() == null) {
             project.setDescription("No description");
+        } else {
+            project.setDescription(requestNewProjectDto.getDescription());
         }
-//        project.setCreator(creator);
-//        project.getUsers().add(creator);
-//        creator.getProjects().add(project);
+
         creator.addProject(project);
+        log.debug("New project before save: " + project);
         return saveOrUpdate(project);
     }
 

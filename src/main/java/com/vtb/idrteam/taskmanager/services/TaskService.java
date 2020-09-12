@@ -4,8 +4,8 @@ import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.Task;
 import com.vtb.idrteam.taskmanager.entities.TaskParticipant;
 import com.vtb.idrteam.taskmanager.entities.User;
-import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestNewTaskDto;
-import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestUpdateTaskDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestNewTaskDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestUpdateTaskDto;
 import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.TaskRepository;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @AllArgsConstructor

@@ -2,7 +2,8 @@ package com.vtb.idrteam.taskmanager.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.entities.Project;
-import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestAddUserToProject;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestAddUserToProject;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestNewProjectDto;
 import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
 import com.vtb.idrteam.taskmanager.services.ProjectService;
 import com.vtb.idrteam.taskmanager.utils.Views;
@@ -29,24 +30,31 @@ public class ProjectsController {
         return projectService.getAllProjectsByUsername(principal.getName());
     }
 
+//    @PostMapping(consumes = "application/json", produces = "application/json")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @JsonView(Views.Small.class)
+//    public Project createNewProject(@RequestBody Project project, Principal principal) {
+//        return projectService.createNewProject(project, principal.getName());
+//    }
+
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     @JsonView(Views.Small.class)
-    public Project createNewProject(@RequestBody Project project, Principal principal) {
-        return projectService.createNewProject(project, principal.getName());
+    public Project createNewProject(@Valid @RequestBody RequestNewProjectDto requestNewProjectDto, Principal principal) {
+        return projectService.createNewProject(requestNewProjectDto, principal.getName());
     }
 
     @GetMapping("/{id}")
     @JsonView(Views.BigProject.class)
-    public Project getProjectById(@PathVariable Long id,Principal principal){
-        return projectService.findById(id).orElseThrow( () -> new ProjectNotFoundException(String.format("Project with id = %d not found!",id)));
+    public Project getProjectById(@PathVariable Long id, Principal principal) {
+        return projectService.findById(id).orElseThrow(() -> new ProjectNotFoundException(String.format("Project with id = %d not found!", id)));
     }
 
     @PostMapping("/{id}/adduser")
     @ResponseStatus(HttpStatus.CREATED)
-    public Project addUSerToProject(@PathVariable Long id,
+    public Project addUserToProject(@PathVariable Long id,
                                     @Valid @RequestBody RequestAddUserToProject requestAddUserToProject,
-                                    Principal principal){
+                                    Principal principal) {
         return projectService.addUserToProject(requestAddUserToProject, id, principal.getName());
     }
 
