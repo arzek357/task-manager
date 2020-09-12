@@ -4,10 +4,11 @@ import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.Task;
 import com.vtb.idrteam.taskmanager.entities.TaskParticipant;
 import com.vtb.idrteam.taskmanager.entities.User;
-import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestNewTaskDto;
-import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestUpdateTaskDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestNewTaskDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestUpdateTaskDto;
 import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
-import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
+import com.vtb.idrteam.taskmanager.exceptions.TaskNotFoundException;
+import com.vtb.idrteam.taskmanager.exceptions.UserNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.TaskRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,8 +28,8 @@ public class TaskService {
     private TaskParticipantService taskParticipantService;
     private NotificationService notificationService;
 
-    public Task findById(Long id) {
-        return taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task with " + id + " not found"));
+    public Optional<Task> findById(Long id) {
+        return taskRepository.findById(id);
     }
 
     public boolean existsById(Long id) {
@@ -38,7 +40,7 @@ public class TaskService {
     public Task createNewTask(Long projectId, RequestNewTaskDto requestNewTaskDto, String username) {
         log.info("Got " + requestNewTaskDto);
         Project project = projectService.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(String.format("Project with id = %d not found!", projectId)));
-        User user = userService.findByUsername(username);
+        User user = userService.findByUsername(username).orElseThrow(() -> new UserNotFoundException("User " + username + " not found"));
 
         Task task = new Task();
         task.setName(requestNewTaskDto.getName());
@@ -58,9 +60,8 @@ public class TaskService {
     public Task updateTask(RequestUpdateTaskDto taskDto) {
         log.info("Got taskDto: " + taskDto);
 
-        //todo вытягивать старый таск
-        Task alteredTask = new Task();
-        alteredTask.setId(taskDto.getId());
+        Task alteredTask = findById(taskDto.getId()).orElseThrow(() -> new TaskNotFoundException("Task not found, id = " + taskDto.getId()));
+
         alteredTask.setName(taskDto.getName());
         alteredTask.setDescription(taskDto.getDescription());
         alteredTask.setState(Task.State.valueOf(taskDto.getState()));
@@ -71,6 +72,8 @@ public class TaskService {
         alteredTask.setUpdatedAt(LocalDateTime.now());
 
 //        notificationService.notifyAboutUpdatedTask(findById(alteredTask.getId()), alteredTask);
+
+        log.info("Task for update: " + alteredTask);
         return saveOrUpdate(alteredTask);
     }
 

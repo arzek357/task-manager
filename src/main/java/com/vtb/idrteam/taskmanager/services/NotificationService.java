@@ -3,6 +3,8 @@ package com.vtb.idrteam.taskmanager.services;
 import com.vtb.idrteam.taskmanager.entities.Notification;
 import com.vtb.idrteam.taskmanager.entities.Task;
 import com.vtb.idrteam.taskmanager.entities.TaskParticipant;
+import com.vtb.idrteam.taskmanager.entities.User;
+import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.NotificationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +28,8 @@ public class NotificationService {
     }
 
     public List<Notification> findByUsername(String username, Integer page) {
-        return notificationRepository.findByUsers(userService.findByUsername(username), PageRequest.of(page, 10));
+        User user = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User " + username + " not found"));
+        return notificationRepository.findByUsers(user, PageRequest.of(page, 10));
     }
 
     public Notification notifyAboutNewTask(Task task) {
