@@ -24,7 +24,7 @@ public class TasksController {
 
     @GetMapping("/{id}")
     public Task getTaskById(@PathVariable Long id){
-        return taskService.findById(id);
+        return taskService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task with not found, id =" + id));
     }
 
     //Создание нового таска в проекте. Обрабатываемый id - id проекта

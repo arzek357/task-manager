@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -27,8 +28,8 @@ public class TaskService {
     private TaskParticipantService taskParticipantService;
     private NotificationService notificationService;
 
-    public Task findById(Long id) {
-        return taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task with " + id + " not found"));
+    public Optional<Task> findById(Long id) {
+        return taskRepository.findById(id);
     }
 
     public boolean existsById(Long id) {
