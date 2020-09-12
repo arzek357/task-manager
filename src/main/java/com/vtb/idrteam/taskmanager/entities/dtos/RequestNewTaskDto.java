@@ -1,5 +1,6 @@
 package com.vtb.idrteam.taskmanager.entities.dtos;
 
+import com.vtb.idrteam.taskmanager.entities.Task;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -13,5 +14,5 @@ public class RequestNewTaskDto {
     @Length(max = 100)
     private String name;
 
-    private String state;
+    private Task.State state;
 }

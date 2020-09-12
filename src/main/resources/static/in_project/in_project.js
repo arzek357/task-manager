@@ -17,6 +17,14 @@ angular.module('app').controller('in_projectController', function ($scope, $http
             });
     };
 
+    $scope.submitAddNewUser = function () {
+        $http.post(contextPath + '/api/v1/projects/'+projectId+'/adduser', $scope.newUser)
+            .then(function (response) {
+                document.getElementById("newUser").value="";
+                delete $scope.newUser;
+            });
+    };
+
     $scope.submitCreateNewTask = function () {
         $http.post(contextPath + '/api/v1/tasks/'+projectId, $scope.newTask)
             .then(function (response) {
