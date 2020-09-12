@@ -3,7 +3,6 @@ package com.vtb.idrteam.taskmanager.services;
 import com.vtb.idrteam.taskmanager.entities.Role;
 import com.vtb.idrteam.taskmanager.entities.User;
 import com.vtb.idrteam.taskmanager.entities.dtos.UserDto;
-import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.exceptions.UserCreationException;
 import com.vtb.idrteam.taskmanager.repositories.RoleRepository;
 import com.vtb.idrteam.taskmanager.repositories.UserRepository;
@@ -48,7 +47,7 @@ public class UserService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User " + username + " not found"));
+        User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 

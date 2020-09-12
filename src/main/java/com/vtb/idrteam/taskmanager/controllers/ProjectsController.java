@@ -5,8 +5,6 @@ import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.dtos.RequestAddUserToProject;
 import com.vtb.idrteam.taskmanager.entities.dtos.RequestNewProjectDto;
 import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
-import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
-import com.vtb.idrteam.taskmanager.exceptions.TaskManagerException;
 import com.vtb.idrteam.taskmanager.services.ProjectService;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.AllArgsConstructor;
@@ -25,19 +23,11 @@ import java.util.List;
 public class ProjectsController {
     private ProjectService projectService;
 
-
     @GetMapping
     @JsonView(Views.Small.class)
     public List<Project> getAllProjects(Principal principal) {
         return projectService.getAllProjectsByUsername(principal.getName());
     }
-
-//    @PostMapping(consumes = "application/json", produces = "application/json")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    @JsonView(Views.Small.class)
-//    public Project createNewProject(@RequestBody Project project, Principal principal) {
-//        return projectService.createNewProject(project, principal.getName());
-//    }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
