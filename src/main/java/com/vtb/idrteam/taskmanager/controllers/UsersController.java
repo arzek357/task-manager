@@ -7,6 +7,7 @@ import com.vtb.idrteam.taskmanager.services.UserService;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,6 +29,6 @@ public class UsersController {
     @GetMapping("/{id}")
     @JsonView(Views.BigUser.class)
     public User getById(@PathVariable Long id){
-        return userService.findById(id);
+        return userService.findById(id).orElseThrow(() -> new UsernameNotFoundException("User with id = " + id +" not found"));
     }
 }

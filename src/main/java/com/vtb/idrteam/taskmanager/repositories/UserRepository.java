@@ -13,7 +13,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
-    User findByUsername(String username);
+//    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
 //    List<UserDto> findAllByTasksParticipants(List<TaskParticipant> participants);
 
 //    @Query("select new Project (p)")

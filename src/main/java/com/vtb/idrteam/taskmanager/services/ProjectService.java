@@ -4,13 +4,15 @@ import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.User;
 import com.vtb.idrteam.taskmanager.entities.dtos.RequestAddUserToProject;
 import com.vtb.idrteam.taskmanager.entities.dtos.RequestNewProjectDto;
+import com.vtb.idrteam.taskmanager.exceptions.NotEnoughRightsException;
+import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
-import com.vtb.idrteam.taskmanager.exceptions.TaskManagerException;
 import com.vtb.idrteam.taskmanager.repositories.ProjectRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,7 +43,7 @@ public class ProjectService {
 
     public Project createNewProject(RequestNewProjectDto requestNewProjectDto, String username) {
         log.debug("Got requestNewProjectDto: " + requestNewProjectDto);
-        User creator = userService.findByUsername(username);
+        User creator = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User " + username + " not found"));
 
         Project project = new Project();
         project.setName(requestNewProjectDto.getName());
@@ -59,7 +61,7 @@ public class ProjectService {
     }
 
     public List<Project> getAllProjectsByUsername(String username) {
-        User user = userService.findByUsername(username);
+        User user = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User " + username + " not found"));
         List<Project> projects = projectRepository.findAllByUsers(user);
         log.info(String.valueOf(projects));
 //        return projectRepository.findAllByUsers(user);
@@ -71,18 +73,20 @@ public class ProjectService {
     }
 
     public Project addUserToProject(RequestAddUserToProject requestAddUserToProject, Long projectId, String principalName) {
-        User newUserInProject = userService.findByUsername(requestAddUserToProject.getUsername());
+        User newUserInProject = userService.findByUsername(requestAddUserToProject.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User " + requestAddUserToProject.getUsername() + " not found"));
+//        User newUserInProject = userService.findByUsername(requestAddUserToProject.getUsername());
         if (newUserInProject == null){
             throw new ResourceNotFoundException("User not found");
         }
 
-        User executor = userService.findByUsername(principalName);
-        Project project = findById(projectId).orElseThrow(() -> new ResourceNotFoundException("Project not found"));
+        User executor = userService.findByUsername(principalName).orElseThrow(() -> new ResourceNotFoundException("User " + principalName + " not found"));
+//        User executor = userService.findByUsername(principalName);
+        Project project = findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project not found, id = " + projectId));
 
         if (executor.equals(project.getCreator())){
             project.addUser(newUserInProject);
         } else {
-            throw new TaskManagerException("User " + executor.getUsername() + "cant add other user to project");
+            throw new NotEnoughRightsException("User " + executor.getUsername() + "cant add other user to project");
         }
 
         return saveOrUpdate(project);

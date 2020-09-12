@@ -11,6 +11,7 @@ import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
 import com.vtb.idrteam.taskmanager.repositories.TaskRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +39,7 @@ public class TaskService {
     public Task createNewTask(Long projectId, RequestNewTaskDto requestNewTaskDto, String username) {
         log.info("Got " + requestNewTaskDto);
         Project project = projectService.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(String.format("Project with id = %d not found!", projectId)));
-        User user = userService.findByUsername(username);
+        User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
 
         Task task = new Task();
         task.setName(requestNewTaskDto.getName());
