@@ -3,15 +3,13 @@ package com.vtb.idrteam.taskmanager.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.utils.Views;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "taskparticipants")
 @NoArgsConstructor
 public class TaskParticipant {
@@ -34,18 +32,17 @@ public class TaskParticipant {
     @ManyToOne(fetch = FetchType.LAZY)
     private Task task;
 
-    @JsonView(Views.Big.class)
+    @JsonView(Views.Small.class)
 //    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @JsonView(Views.Big.class)
+    @JsonView(Views.Small.class)
     @Column(name="authority")
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
     public TaskParticipant(User user, Authority authority) {
-//        this.task = task;
         this.user = user;
         this.authority = authority;
     }

@@ -23,6 +23,7 @@ public class TasksController {
     private TaskParticipantService taskParticipantService;
 
     @GetMapping("/{id}")
+    @JsonView(Views.BigTask.class)
     public Task getTaskById(@PathVariable Long id){
         return taskService.findById(id);
     }

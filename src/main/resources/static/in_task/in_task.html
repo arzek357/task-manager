@@ -1,1 +1,20 @@
-<h1>Hello</h1>
+<div>
+    <h1 ng-model="task" style="text-align: center">{{task.name}}</h1>
+    <h3 ng-model="task">{{task.description}}</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Никнейм</th>
+            <th scope="col">Роль</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="u in task.users">
+            <td>{{u.username}}</td>
+            <td ng-if="u.username==project.creator.username">Создатель</td>
+            <td ng-if="u.username!=project.creator.username">Пользователь</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>

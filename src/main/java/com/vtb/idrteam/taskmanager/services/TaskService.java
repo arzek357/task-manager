@@ -42,7 +42,9 @@ public class TaskService {
 
         Task task = new Task();
         task.setName(requestNewTaskDto.getName());
-        task.addTaskParticipant(new TaskParticipant(user, TaskParticipant.Authority.CREATOR));
+        TaskParticipant taskParticipant = new TaskParticipant(user, TaskParticipant.Authority.CREATOR);
+        taskParticipant.setTask(task);
+        task.addTaskParticipant(taskParticipant);
         task.setState(requestNewTaskDto.getState());
 
         project.addTask(task);

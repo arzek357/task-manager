@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestAddUserToProject;
 import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
-import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
-import com.vtb.idrteam.taskmanager.exceptions.TaskManagerException;
 import com.vtb.idrteam.taskmanager.services.ProjectService;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.AllArgsConstructor;
