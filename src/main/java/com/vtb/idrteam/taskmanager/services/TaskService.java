@@ -48,6 +48,9 @@ public class TaskService {
         taskParticipant.setTask(task);
         task.addTaskParticipant(taskParticipant);
         task.setState(requestNewTaskDto.getState());
+        task.setArchived(false);
+        task.setPriority(Task.Priority.MEDIUM);
+        task.setDescription("No description");
 
         project.addTask(task);
         log.info("New Task: " + task);
