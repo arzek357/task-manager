@@ -64,7 +64,6 @@ public class ProjectService {
         User user = userService.findByUsername(username).orElseThrow(() -> new UserNotFoundException("User " + username + " not found"));
         List<Project> projects = projectRepository.findAllByUsers(user);
         log.info(String.valueOf(projects));
-//        return projectRepository.findAllByUsers(user);
         return projects;
     }
 
@@ -74,13 +73,11 @@ public class ProjectService {
 
     public Project addUserToProject(RequestAddUserToProject requestAddUserToProject, Long projectId, String principalName) {
         User newUserInProject = userService.findByUsername(requestAddUserToProject.getUsername()).orElseThrow(() -> new UserNotFoundException("User " + requestAddUserToProject.getUsername() + " not found"));
-//        User newUserInProject = userService.findByUsername(requestAddUserToProject.getUsername());
         if (newUserInProject == null) {
             throw new ResourceNotFoundException("User not found");
         }
 
         User executor = userService.findByUsername(principalName).orElseThrow(() -> new UserNotFoundException("User " + principalName + " not found"));
-//        User executor = userService.findByUsername(principalName);
         Project project = findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project not found, id = " + projectId));
 
         if (executor.equals(project.getCreator())) {
