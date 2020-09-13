@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.utils.Views;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -22,7 +25,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Task {
     //Задачи могут иметь статусы: создана, в работе, передана на проверку, возвращена на доработку, завершена, отменена.
-    //CREATED, IN_PROGRESS, ON_REVIEW, ON_REWORK, COMPLETED, CANCELED
     @AllArgsConstructor
     @Getter
     public enum State {
@@ -38,7 +40,7 @@ public class Task {
     //Приоритет задачи имеет 6 уровней: в планах, очень низкий, низкий, средний, высокий, очень высокий.
     @AllArgsConstructor
     @Getter
-    public enum Priority{
+    public enum Priority {
         LOWEST("Очень низкий"),
         LOW("Низкий"),
         MEDIUM("Средний"),
@@ -54,15 +56,15 @@ public class Task {
     private Long id;
 
     @NotNull
-    @Column(name = "name", length = 100)
+    @Column(name = "name", length = 100, nullable = false)
     @JsonView(Views.Small.class)
     private String name;
 
-    @Column(name = "description", length = 500)
+    @Column(name = "description", length = 500, nullable = false)
     @JsonView(Views.Small.class)
     private String description;
 
-    @Column(name = "archived")
+    @Column(name = "archived", nullable = false)
     @JsonView(Views.Small.class)
     private Boolean archived;
 
@@ -85,12 +87,6 @@ public class Task {
     @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
 
-    //Настройка видимости задачи
-//    @JsonView(Views.BigTask.class)
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "task_authority_id", referencedColumnName = "id")
-//    private TaskAuthority taskAuthority;
-
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Project project;
@@ -112,26 +108,20 @@ public class Task {
     private List<Notification> notifications = new ArrayList<>();
 
     @JsonView(Views.Small.class)
-    @Column(name="state")
+    @Column(name = "state")
     @Enumerated(EnumType.STRING)
     private State state;
 
     @JsonView(Views.BigTask.class)
-    @Column(name="priority")
+    @Column(name = "priority")
     @Enumerated(EnumType.STRING)
     private Priority priority;
-
-    //    @JsonView(Views.BigTask.class)
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "task_state_id", referencedColumnName = "id")
-//    private TaskStatus taskStatus;
 
 //    public void addTaskParticipant(User user, TaskParticipant.Authority authority){
 //        this.taskParticipants.add(new TaskParticipant(this, user, authority));
 //    }
 
-    public void addTaskParticipant(TaskParticipant taskParticipant){
-//        taskParticipant.setTask(this);
+    public void addTaskParticipant(TaskParticipant taskParticipant) {
         taskParticipants.add(taskParticipant);
     }
 }
