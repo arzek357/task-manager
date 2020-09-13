@@ -20,7 +20,8 @@ public class TasksController {
     private TaskService taskService;
 
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable Long id) {
+    @JsonView(Views.BigTask.class)
+    public Task getTaskById(@PathVariable Long id){
         return taskService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task with not found, id = " + id));
     }
 
