@@ -15,24 +15,24 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode(exclude = "users")
+@ToString(exclude = {"task"})
+@EqualsAndHashCode(exclude = {"users", "task"})
 @Entity
 @Table(name = "notifications")
 @NoArgsConstructor
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     @JsonView(Views.Id.class)
     private Long id;
 
     @JsonView(Views.Small.class)
-    @Column(name = "title", length = 100)
+    @Column(name = "title", length = 100, nullable = false)
     private String title;
 
     @JsonView(Views.BigNotification.class)
-    @Column(name = "message", length = 1500)
+    @Column(name = "message", length = 1500, nullable = false)
     private String message;
 
     @JsonView(Views.FullNotification.class)
@@ -50,7 +50,6 @@ public class Notification {
     @ColumnDefault("current_timestamp")
     private LocalDateTime createdAt;
 
-    //возможно лишнее поле
     @JsonView(Views.FullNotification.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @UpdateTimestamp

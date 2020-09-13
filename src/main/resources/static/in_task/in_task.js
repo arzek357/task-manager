@@ -9,5 +9,9 @@ angular.module('app').controller('in_taskController', function ($scope, $http,$r
             });
     };
 
+    $(function(){
+        $('.dropdown-toggle').dropdown();
+    });
+
     fillTable();
 });

@@ -1,17 +1,17 @@
-package com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos;
+package com.vtb.idrteam.taskmanager.entities.dtos;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Data
 public class RequestUpdateTaskDto {
 
     @NotNull
-    @Min(0)
+    @Positive
     private Long id;
 
     @NotNull
@@ -32,10 +32,8 @@ public class RequestUpdateTaskDto {
     @NotEmpty
     private String priority;
 
+    @NotNull
     private Boolean archived;
-
-//    @NotNull
-//    private List<TaskParticipant> participants;
 
     //todo deadlinetime
 }
