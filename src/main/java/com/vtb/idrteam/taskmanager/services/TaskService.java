@@ -52,7 +52,7 @@ public class TaskService {
         task.setDescription("No description");
 
         project.addTask(task);
-        log.info("New Task: " + task);
+        log.debug("New Task: " + task);
 
         notificationService.notifyAboutNewTask(task);
         return saveOrUpdate(task);
