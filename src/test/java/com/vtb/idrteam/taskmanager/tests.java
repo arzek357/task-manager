@@ -3,12 +3,15 @@ package com.vtb.idrteam.taskmanager;
 import com.vtb.idrteam.taskmanager.entities.Project;
 import com.vtb.idrteam.taskmanager.entities.Task;
 import com.vtb.idrteam.taskmanager.entities.User;
-import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestNewTaskDto;
-import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.UserDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestNewProjectDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestNewTaskDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.UserDto;
 import com.vtb.idrteam.taskmanager.exceptions.UserCreationException;
+import com.vtb.idrteam.taskmanager.repositories.NotificationRepository;
 import com.vtb.idrteam.taskmanager.repositories.ProjectRepository;
 import com.vtb.idrteam.taskmanager.repositories.TaskRepository;
 import com.vtb.idrteam.taskmanager.repositories.UserRepository;
+import com.vtb.idrteam.taskmanager.services.NotificationService;
 import com.vtb.idrteam.taskmanager.services.ProjectService;
 import com.vtb.idrteam.taskmanager.services.TaskService;
 import com.vtb.idrteam.taskmanager.services.UserService;
@@ -18,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,14 +43,15 @@ public class tests {
      * на поиск по Id
      */
     @Test
-    public void userFindById(){
+    public void userFindById() throws Exception {
         User user1 = new User();
         user1.setId(1L);
         given(this.userRepository.findById(any()))
-                .willReturn(java.util.Optional.of(user1));
+                .willReturn(Optional.of(user1));
 
-        User user = userService.findById(1L);
-        assertEquals(1,user.getId());
+        User user = userService.findById(1L).orElseThrow(Exception::new);
+        assertEquals(1, user.getId());
+
     }
 
     /**
@@ -53,13 +59,13 @@ public class tests {
      * на поиск по username
      */
     @Test
-    public void userFindByUsername(){
+    public void userFindByUsername() throws Exception {
         User user1 = new User();
         user1.setUsername("qwe");
         given(this.userRepository.findByUsername(any()))
-                .willReturn(user1);
+                .willReturn(Optional.of(user1));
 
-        User user = userService.findByUsername("qwe");
+        User user = userService.findByUsername("qwe").orElseThrow(Exception::new);
         assertEquals("qwe",user.getUsername());
     }
 
@@ -68,13 +74,13 @@ public class tests {
      * на обновление user
      */
     @Test
-    public void userSaveOrUpdate(){
+    public void userSaveOrUpdate() throws Exception {
         User user1 = new User();
         user1.setUsername("qwe");
         given(this.userRepository.findByUsername(any()))
-                .willReturn(user1);
+                .willReturn(Optional.of(user1));
 
-        User user = userService.findByUsername("qwe");
+        User user = userService.findByUsername("qwe").orElseThrow(Exception::new);
         assertEquals("qwe",user.getUsername());
 
         user1.setUsername("another");
@@ -193,14 +199,21 @@ public class tests {
      * на поиск по Id
      */
     @Test
-    public void taskFindById(){
+    public void taskFindById() throws Exception {
         Task task = new Task();
         task.setId(1L);
         given(this.taskRepository.findById(any()))
                 .willReturn(java.util.Optional.of(task));
-        Task task1 = taskService.findById(1L);
+        Task task1 = taskService.findById(1L).orElseThrow(Exception::new);
         assertEquals(1,task1.getId());
     }
+
+
+    @MockBean
+    private NotificationRepository notificationRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     /**
      * Тест проверяет taskCreate
@@ -221,6 +234,8 @@ public class tests {
                 .willReturn(task);
         given(this.taskRepository.findById(any()))
                 .willReturn(java.util.Optional.of(task));
+        given(this.userRepository.findByUsername(any()))
+                .willReturn(Optional.of(new User()));
 
         Project project = new Project();
         project.setId(1L);
@@ -264,11 +279,14 @@ public class tests {
         Project project = new Project();
         project.setId(1L);
         project.setDescription("desc");
+        RequestNewProjectDto  projectDto = new RequestNewProjectDto();
+        projectDto.setDescription("desc");
+        projectDto.setName("NAME");
         given(this.projectRepository.save(any()))
                 .willReturn(project);
         given(this.userRepository.findByUsername(any()))
-                .willReturn(new User());
-        Project project1 = projectService.createNewProject(project, "qweqwe");
+                .willReturn(Optional.of(new User()));
+        Project project1 = projectService.createNewProject(projectDto, "qweqwe");
         assertEquals(1,project1.getId());
         assertEquals("desc",project1.getDescription());
     }
