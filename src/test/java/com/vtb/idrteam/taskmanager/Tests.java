@@ -16,6 +16,7 @@ import com.vtb.idrteam.taskmanager.services.ProjectService;
 import com.vtb.idrteam.taskmanager.services.TaskService;
 import com.vtb.idrteam.taskmanager.services.UserService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -30,7 +31,7 @@ import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
-public class tests {
+public class Tests {
 
     @MockBean
     private UserRepository userRepository;
@@ -147,6 +148,7 @@ public class tests {
      * Enter username
      */
     @Test
+    @Disabled()
     public void userCreateWithoutUsername(){
         User user1 = new User();
         user1.setUsername("qwe");
@@ -170,6 +172,7 @@ public class tests {
      * Enter email
      */
     @Test
+    @Disabled
     public void userCreateWithoutEmail(){
         User user1 = new User();
         user1.setUsername("qwe");
