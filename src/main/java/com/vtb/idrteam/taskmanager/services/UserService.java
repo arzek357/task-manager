@@ -63,6 +63,10 @@ public class UserService implements UserDetailsService {
             throw new UserCreationException("User with this username already exists");
         }
 
+        if (userRepository.findByEmail(userDto.getEmail()).isPresent()){
+            throw new UserCreationException("User with this email already exists");
+        }
+
         if(userDto.getPassword() == null || userDto.getPasswordConfirm() == null){
             throw new UserCreationException("Enter both passwords");
         }
