@@ -23,26 +23,23 @@ import java.util.Set;
 @Table(name = "projects")
 @NoArgsConstructor
 public class Project {
-//    @NotNull
     @JsonView(Views.Id.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
-//    @NotNull
     @JsonView(Views.Small.class)
-    @Column(name = "name")
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
 
     @JsonView(Views.Small.class)
-    @Column(name = "description")
+    @Column(name = "description", length = 500)
     private String description;
 
-//    @NotNull
     @JsonView(Views.BigProject.class)
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "creator_id", referencedColumnName = "id")
+    @JoinColumn(name = "creator_id", referencedColumnName = "id", nullable = false)
     private User creator;
 
     @JsonView(Views.FullProject.class)
@@ -74,12 +71,12 @@ public class Project {
     )
     private List<Task> tasks = new ArrayList<>();
 
-    public void addTask(Task task){
+    public void addTask(Task task) {
         tasks.add(task);
         task.setProject(this);
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         users.add(user);
         user.getProjects().add(this);
     }

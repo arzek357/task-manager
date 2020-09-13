@@ -1,4 +1,4 @@
-package com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos;
+package com.vtb.idrteam.taskmanager.entities.dtos;
 
 import lombok.Data;
 

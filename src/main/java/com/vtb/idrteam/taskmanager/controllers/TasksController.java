@@ -2,14 +2,12 @@ package com.vtb.idrteam.taskmanager.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.entities.Task;
-import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestNewTaskDto;
-import com.vtb.idrteam.taskmanager.entities.dtos.securityDtos.dtos.RequestUpdateTaskDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestNewTaskDto;
+import com.vtb.idrteam.taskmanager.entities.dtos.RequestUpdateTaskDto;
 import com.vtb.idrteam.taskmanager.exceptions.ResourceNotFoundException;
-import com.vtb.idrteam.taskmanager.services.TaskParticipantService;
 import com.vtb.idrteam.taskmanager.services.TaskService;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.AllArgsConstructor;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,11 +18,11 @@ import java.security.Principal;
 @AllArgsConstructor
 public class TasksController {
     private TaskService taskService;
-    private TaskParticipantService taskParticipantService;
 
     @GetMapping("/{id}")
+    @JsonView(Views.BigTask.class)
     public Task getTaskById(@PathVariable Long id){
-        return taskService.findById(id);
+        return taskService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task with not found, id = " + id));
     }
 
     //Создание нового таска в проекте. Обрабатываемый id - id проекта
@@ -35,8 +33,9 @@ public class TasksController {
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json")
+    @JsonView(Views.BigTask.class)
     public Task modifyTask(@RequestBody RequestUpdateTaskDto taskDto) {
-        if (!taskService.existsById(taskDto.getId())){
+        if (!taskService.existsById(taskDto.getId())) {
             throw new ResourceNotFoundException("Task not found");
         }
         return taskService.updateTask(taskDto);
