@@ -33,6 +33,7 @@ public class TasksController {
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json")
+    @JsonView(Views.BigTask.class)
     public Task modifyTask(@RequestBody RequestUpdateTaskDto taskDto) {
         if (!taskService.existsById(taskDto.getId())) {
             throw new ResourceNotFoundException("Task not found");

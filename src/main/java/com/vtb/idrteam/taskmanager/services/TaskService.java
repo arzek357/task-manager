@@ -25,7 +25,6 @@ public class TaskService {
     private TaskRepository taskRepository;
     private ProjectService projectService;
     private UserService userService;
-    private TaskParticipantService taskParticipantService;
     private NotificationService notificationService;
 
     public Optional<Task> findById(Long id) {
@@ -55,29 +54,28 @@ public class TaskService {
         project.addTask(task);
         log.info("New Task: " + task);
 
-//        notificationService.notifyAboutNewTask(task);
+        notificationService.notifyAboutNewTask(task);
         return saveOrUpdate(task);
     }
 
     @Transactional
     public Task updateTask(RequestUpdateTaskDto taskDto) {
-        log.info("Got taskDto: " + taskDto);
+        log.debug("Got taskDto: " + taskDto);
 
-        Task alteredTask = findById(taskDto.getId()).orElseThrow(() -> new TaskNotFoundException("Task not found, id = " + taskDto.getId()));
+        Task task = findById(taskDto.getId()).orElseThrow(() -> new TaskNotFoundException("Task not found, id = " + taskDto.getId()));
+        log.debug("Old task: " + task);
 
-        alteredTask.setName(taskDto.getName());
-        alteredTask.setDescription(taskDto.getDescription());
-        alteredTask.setState(Task.State.valueOf(taskDto.getState()));
-        alteredTask.setPriority(Task.Priority.valueOf(taskDto.getPriority()));
-        alteredTask.setArchived(taskDto.getArchived());
-//        alteredTask.setTaskParticipants(taskDto.getParticipants());
+        task.setName(taskDto.getName());
+        task.setDescription(taskDto.getDescription());
+        task.setState(Task.State.valueOf(taskDto.getState()));
+        task.setPriority(Task.Priority.valueOf(taskDto.getPriority()));
+        task.setArchived(taskDto.getArchived());
 
-        alteredTask.setUpdatedAt(LocalDateTime.now());
+        task.setUpdatedAt(LocalDateTime.now());
 
-//        notificationService.notifyAboutUpdatedTask(findById(alteredTask.getId()), alteredTask);
-
-        log.info("Task for update: " + alteredTask);
-        return saveOrUpdate(alteredTask);
+        notificationService.notifyAboutUpdatedTask(task);
+        log.debug("New task: " + task);
+        return saveOrUpdate(task);
     }
 
     public Task saveOrUpdate(Task task) {

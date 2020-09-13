@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.utils.Views;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,7 +17,7 @@ import java.util.List;
 
 @Entity
 @Data
-//@ToString(of = {"id", "name", "description", "deadlineTime", "createdAt", "updatedAt", "archived", "state", "project"})
+@ToString(exclude = "taskParticipants")
 @Table(name = "tasks")
 @NoArgsConstructor
 public class Task {
@@ -28,7 +25,7 @@ public class Task {
     @AllArgsConstructor
     @Getter
     public enum State {
-        CREATED("Cоздано"),
+        CREATED("Cоздана"),
         IN_PROGRESS("В работе"),
         IN_REVIEW("Передана на проверку"),
         IN_REWORK("Возвращена на доработку"),
@@ -97,15 +94,6 @@ public class Task {
             orphanRemoval = true,
             fetch = FetchType.LAZY)
     private List<TaskParticipant> taskParticipants = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(
-            mappedBy = "task",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<Notification> notifications = new ArrayList<>();
 
     @JsonView(Views.Small.class)
     @Column(name = "state")

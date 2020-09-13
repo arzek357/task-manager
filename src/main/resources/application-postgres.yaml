@@ -5,9 +5,9 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=task-manager-dir
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=task_manager_dir
     username: postgres
-    password: 374563aA
+    password: postgres
   timeleaf:
     encoding: UTF-8
   jpa:

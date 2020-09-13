@@ -15,8 +15,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode(exclude = "users")
+@ToString(exclude = {"task"})
+@EqualsAndHashCode(exclude = {"users", "task"})
 @Entity
 @Table(name = "notifications")
 @NoArgsConstructor
