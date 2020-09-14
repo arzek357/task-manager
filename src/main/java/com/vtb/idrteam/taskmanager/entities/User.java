@@ -5,27 +5,25 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.*;
-import org.hibernate.annotations.*;
-import org.hibernate.validator.constraints.Length;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@ToString(of ={"id", "username", "name", "surname", "email", "roles"})
+@ToString(of = {"id", "username", "name", "surname", "email", "roles"})
 @EqualsAndHashCode(exclude = {"projects", "notifications"})
 @Table(name = "users")
 @NoArgsConstructor
 public class User {
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -90,22 +88,21 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "notification_id"))
     private Set<Notification> notifications = new HashSet<>();
 
-    @JsonView(Views.FullUser.class)
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<TaskParticipant> tasksParticipants = new ArrayList<>();
+//    @JsonView(Views.FullUser.class)
+//    @OneToMany(
+//            mappedBy = "user",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
+//            fetch = FetchType.LAZY
+//    )
+//    private List<TaskParticipant> tasksParticipants = new ArrayList<>();
 
-    public void addProject(Project project){
+    public void addProject(Project project) {
         projects.add(project);
-        project.setCreator(this);
         project.getUsers().add(this);
     }
 
-    public void addRole(Role role){
+    public void addRole(Role role) {
         roles.add(role);
     }
 }

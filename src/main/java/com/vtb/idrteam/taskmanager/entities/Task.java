@@ -3,11 +3,8 @@ package com.vtb.idrteam.taskmanager.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.vtb.idrteam.taskmanager.entities.simpletables.TaskStatus;
 import com.vtb.idrteam.taskmanager.utils.Views;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,38 +17,51 @@ import java.util.List;
 
 @Entity
 @Data
-@ToString(of = {"id", "name", "description", "deadlineTime", "createdAt", "updatedAt", "archived", "taskStatus", "project"})
+@ToString(exclude = "taskParticipants")
 @Table(name = "tasks")
 @NoArgsConstructor
 public class Task {
     //Задачи могут иметь статусы: создана, в работе, передана на проверку, возвращена на доработку, завершена, отменена.
-    //CREATED, IN_PROGRESS, ON_REVIEW, ON_REWORK, COMPLETED, CANCELED
-//    public enum Status {
-//        CREATED, IN_PROCESS, IN_REVIEW, IN_REWORK, COMPLETED, CANCELED;
-//    }
+    @AllArgsConstructor
+    @Getter
+    public enum State {
+        CREATED("Cоздана"),
+        IN_PROGRESS("В работе"),
+        IN_REVIEW("Передана на проверку"),
+        IN_REWORK("Возвращена на доработку"),
+        COMPLETED("Завершена"),
+        CANCELED("Отменена");
+        private String rus;
+    }
 
     //Приоритет задачи имеет 6 уровней: в планах, очень низкий, низкий, средний, высокий, очень высокий.
-//    public enum Priority{
-//
-//    }
+    @AllArgsConstructor
+    @Getter
+    public enum Priority {
+        LOWEST("Очень низкий"),
+        LOW("Низкий"),
+        MEDIUM("Средний"),
+        HIGH("Высокий"),
+        HIGHEST("Самый высокий");
+        private String rus;
+    }
 
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(Views.Id.class)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @NotNull
-    @Column(name = "name", length = 100)
+    @Column(name = "name", length = 100, nullable = false)
     @JsonView(Views.Small.class)
     private String name;
 
-    @Column(name = "description", length = 500)
+    @Column(name = "description", length = 500, nullable = false)
     @JsonView(Views.Small.class)
     private String description;
 
-    @Column(name = "archived")
+    @Column(name = "archived", nullable = false)
     @JsonView(Views.Small.class)
     private Boolean archived;
 
@@ -74,12 +84,6 @@ public class Task {
     @ColumnDefault("current_timestamp")
     private LocalDateTime updatedAt;
 
-    //Настройка видимости задачи
-//    @JsonView(Views.BigTask.class)
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "task_authority_id", referencedColumnName = "id")
-//    private TaskAuthority taskAuthority;
-
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Project project;
@@ -89,19 +93,23 @@ public class Task {
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.LAZY)
-    private List<TaskParticipant> taskParticipants;
+    private List<TaskParticipant> taskParticipants = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(
-            mappedBy = "task",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<Notification> notifications = new ArrayList<>();
+    @JsonView(Views.Small.class)
+    @Column(name = "state")
+    @Enumerated(EnumType.STRING)
+    private State state;
 
     @JsonView(Views.BigTask.class)
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "task_state_id", referencedColumnName = "id")
-    private TaskStatus taskStatus;
+    @Column(name = "priority")
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
+
+//    public void addTaskParticipant(User user, TaskParticipant.Authority authority){
+//        this.taskParticipants.add(new TaskParticipant(this, user, authority));
+//    }
+
+    public void addTaskParticipant(TaskParticipant taskParticipant) {
+        taskParticipants.add(taskParticipant);
+    }
 }

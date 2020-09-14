@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.utils.Views;
 import lombok.*;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,26 +23,23 @@ import java.util.Set;
 @Table(name = "projects")
 @NoArgsConstructor
 public class Project {
-//    @NotNull
     @JsonView(Views.Id.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
-//    @NotNull
     @JsonView(Views.Small.class)
-    @Column(name = "name")
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
 
     @JsonView(Views.Small.class)
-    @Column(name = "description")
+    @Column(name = "description", length = 500)
     private String description;
 
-//    @NotNull
     @JsonView(Views.BigProject.class)
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "creator_id", referencedColumnName = "id")
+    @JoinColumn(name = "creator_id", referencedColumnName = "id", nullable = false)
     private User creator;
 
     @JsonView(Views.FullProject.class)
@@ -76,8 +71,13 @@ public class Project {
     )
     private List<Task> tasks = new ArrayList<>();
 
-    public void addTask(Task task){
+    public void addTask(Task task) {
         tasks.add(task);
         task.setProject(this);
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+        user.getProjects().add(this);
     }
 }

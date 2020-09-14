@@ -22,13 +22,13 @@ public class NotificationController {
 
     @GetMapping("/page/{page}")
     @JsonView(Views.Small.class)
-    public List<Notification> getNotificationsByUser(@PathVariable Integer page, Principal principal){
+    public List<Notification> getNotificationsByUser(@PathVariable Integer page, Principal principal) {
         return notificationService.findByUsername(principal.getName(), page);
     }
 
     @GetMapping("/{id}")
     @JsonView(Views.BigNotification.class)
-    public Notification getNotificationById(@PathVariable Long id){
+    public Notification getNotificationById(@PathVariable Long id) {
         return notificationService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Notification not found"));
     }
 }

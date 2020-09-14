@@ -1,0 +1,28 @@
+<div>
+    <h1 ng-model="task" style="text-align: center">{{task.name}}</h1>
+    <h3 ng-model="task">{{task.description}}</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Никнейм</th>
+            <th scope="col">Роль</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="t in task.taskParticipants">
+            <td>{{t.user.username}}</td>
+            <td>{{t.authority}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown button
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+    </div>
+</div>
