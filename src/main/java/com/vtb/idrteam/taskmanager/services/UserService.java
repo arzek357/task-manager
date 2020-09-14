@@ -2,12 +2,15 @@ package com.vtb.idrteam.taskmanager.services;
 
 import com.vtb.idrteam.taskmanager.entities.Role;
 import com.vtb.idrteam.taskmanager.entities.User;
+import com.vtb.idrteam.taskmanager.entities.dtos.RegistrationUserRequestDto;
 import com.vtb.idrteam.taskmanager.entities.dtos.UserDto;
+import com.vtb.idrteam.taskmanager.exceptions.UserAlreadyExistsException;
 import com.vtb.idrteam.taskmanager.exceptions.UserCreationException;
 import com.vtb.idrteam.taskmanager.repositories.RoleRepository;
 import com.vtb.idrteam.taskmanager.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +31,7 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
 
+
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
@@ -36,12 +40,22 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id);
     }
 
-    public boolean existsById(Long id) {
-        return userRepository.existsById(id);
-    }
-
     public User saveOrUpdate(User user) {
         return userRepository.save(user);
+    }
+
+    public User tryToRegisterUser(RegistrationUserRequestDto registrationUserRequestDto) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        if (!userRepository.existsByUsername(registrationUserRequestDto.getUsername())) {
+            return  saveOrUpdate(new User(
+                    registrationUserRequestDto.getUsername(),
+                    bCryptPasswordEncoder.encode(registrationUserRequestDto.getPassword()),
+                    registrationUserRequestDto.getName(),
+                    registrationUserRequestDto.getSurname(),
+                    registrationUserRequestDto.getEmail()
+            ));
+        }
+        throw new UserAlreadyExistsException(String.format("Пользователь с никнеймом %s уже существует!", registrationUserRequestDto.getUsername()));
     }
 
     @Override
@@ -63,11 +77,11 @@ public class UserService implements UserDetailsService {
             throw new UserCreationException("User with this username already exists");
         }
 
-        if (userRepository.findByEmail(userDto.getEmail()).isPresent()){
+        if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
             throw new UserCreationException("User with this email already exists");
         }
 
-        if(userDto.getPassword() == null || userDto.getPasswordConfirm() == null){
+        if (userDto.getPassword() == null || userDto.getPasswordConfirm() == null) {
             throw new UserCreationException("Enter both passwords");
         }
 

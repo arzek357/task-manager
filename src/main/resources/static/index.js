@@ -27,6 +27,10 @@
             .when('/in_task/:id', {
                 templateUrl: 'in_task/in_task.html',
                 controller: 'in_taskController'
+            })
+            .when('/register', {
+                templateUrl: 'register/register.html',
+                controller: 'registerController'
             });
 
         $httpProvider.interceptors.push(function($q, $location) {
