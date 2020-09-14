@@ -88,15 +88,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "notification_id"))
     private Set<Notification> notifications = new HashSet<>();
 
-//    @JsonView(Views.FullUser.class)
-//    @OneToMany(
-//            mappedBy = "user",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true,
-//            fetch = FetchType.LAZY
-//    )
-//    private List<TaskParticipant> tasksParticipants = new ArrayList<>();
-
     public void addProject(Project project) {
         projects.add(project);
         project.getUsers().add(this);
@@ -104,5 +95,13 @@ public class User {
 
     public void addRole(Role role) {
         roles.add(role);
+    }
+
+    public User(String username,String password,String name,String surname,String email) {
+        this.username=username;
+        this.password=password;
+        this.name=name;
+        this.surname=surname;
+        this.email=email;
     }
 }

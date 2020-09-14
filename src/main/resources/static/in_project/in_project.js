@@ -7,12 +7,14 @@ angular.module('app').controller('in_projectController', function ($scope, $http
     $scope.InReworkTasks=[];
     $scope.CompletedTasks=[];
     $scope.CanceledTasks=[];
+    $scope.users=[];
 
     fillTable = function () {
         $http.get(contextPath + '/api/v1/projects/'+projectId)
             .then(function (response) {
                 $scope.project = response.data;
                 $scope.tasks = $scope.project.tasks;
+                $scope.users = $scope.project.users;
                 $scope.tasks.forEach(sortFunc)
             });
     };
@@ -21,6 +23,7 @@ angular.module('app').controller('in_projectController', function ($scope, $http
         $http.post(contextPath + '/api/v1/projects/'+projectId+'/adduser', $scope.newUser)
             .then(function (response) {
                 document.getElementById("newUser").value="";
+                $scope.users.push(response.data);
                 delete $scope.newUser;
             });
     };

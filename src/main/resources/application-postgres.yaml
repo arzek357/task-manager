@@ -7,7 +7,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=task_manager_dir
     username: postgres
-    password: postgres
+    password: 374563aA
   timeleaf:
     encoding: UTF-8
   jpa:
@@ -17,3 +17,5 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQL94Dialect
         temp:
           use_jdbc_metadata_defaults: false
+jwt:
+  secret: aefiojfaofj3oq5j3p158m1fy181p1gj3158y13g1kp5hjgpw385g2

@@ -1,0 +1,25 @@
+<div class="mb-3 text-center">
+    <form class="form-signin" ng-submit="tryToRegister()" style="max-width: 350px; padding: 15px; margin: 0 auto;">
+        <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+        <label for="inputUsername" class="sr-only">Имя пользователя</label>
+        <input type="text" ng-model="user.username" id="inputUsername" class="form-control" placeholder="Имя пользователя" style="margin-bottom: 10px;" required="">
+        <label for="inputPassword" class="sr-only">Пароль</label>
+        <input type="password" ng-model="user.password" id="inputPassword" class="form-control" placeholder="Пароль" style="margin-bottom: 10px;" required="">
+        <label for="inputPassword" class="sr-only">Имя</label>
+        <input type="text" ng-model="user.name" id="inputName" class="form-control" placeholder="Имя" style="margin-bottom: 10px;" required="">
+        <label for="inputPassword" class="sr-only">Фамилия</label>
+        <input type="text" ng-model="user.surname" id="inputSurname" class="form-control" placeholder="Фамилия" style="margin-bottom: 10px;" required="">
+        <label for="inputPassword" class="sr-only">E-mail</label>
+        <input type="email" ng-model="user.email" id="inputEmail" class="form-control" placeholder="E-mail" style="margin-bottom: 10px;" required="">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+        <p class="mt-5 mb-3 text-muted">© GeekBrains 2020</p>
+    </form>
+
+    <div ng-if="status.success=='success'" class="alert alert-success">
+        Вы успешно зарегестрировались! Попробуйте войти.
+    </div>
+
+    <div ng-if="status.success=='failed'" class="alert alert-danger">
+        Что-то пошло не так! Проверьте, что все поля заполнены, ваш пароль состоит не менее чем из 6 символов, юзернейм из не менее 3.
+    </div>
+</div>

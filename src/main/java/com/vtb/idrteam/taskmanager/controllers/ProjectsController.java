@@ -2,6 +2,7 @@ package com.vtb.idrteam.taskmanager.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vtb.idrteam.taskmanager.entities.Project;
+import com.vtb.idrteam.taskmanager.entities.User;
 import com.vtb.idrteam.taskmanager.entities.dtos.RequestAddUserToProject;
 import com.vtb.idrteam.taskmanager.entities.dtos.RequestNewProjectDto;
 import com.vtb.idrteam.taskmanager.exceptions.ProjectNotFoundException;
@@ -45,10 +46,9 @@ public class ProjectsController {
     @PostMapping("/{id}/adduser")
     @JsonView(Views.Small.class)
     @ResponseStatus(HttpStatus.CREATED)
-    public Project addUserToProject(@PathVariable Long id,
-                                    @Valid @RequestBody RequestAddUserToProject requestAddUserToProject,
-                                    Principal principal) {
+    public User addUserToProject(@PathVariable Long id,
+                                 @Valid @RequestBody RequestAddUserToProject requestAddUserToProject,
+                                 Principal principal) {
         return projectService.addUserToProject(requestAddUserToProject, id, principal.getName());
     }
-
 }

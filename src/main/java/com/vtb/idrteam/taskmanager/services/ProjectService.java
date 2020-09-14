@@ -71,7 +71,7 @@ public class ProjectService {
         return projectRepository.findById(id);
     }
 
-    public Project addUserToProject(RequestAddUserToProject requestAddUserToProject, Long projectId, String principalName) {
+    public User addUserToProject(RequestAddUserToProject requestAddUserToProject, Long projectId, String principalName) {
         User newUserInProject = userService.findByUsername(requestAddUserToProject.getUsername()).orElseThrow(() -> new UserNotFoundException("User " + requestAddUserToProject.getUsername() + " not found"));
         if (newUserInProject == null) {
             throw new ResourceNotFoundException("User not found");
@@ -85,7 +85,7 @@ public class ProjectService {
         } else {
             throw new NotEnoughRightsException("User " + executor.getUsername() + "cant add other user to project");
         }
-
-        return saveOrUpdate(project);
+        saveOrUpdate(project);
+        return newUserInProject;
     }
 }
