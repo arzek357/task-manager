@@ -47,7 +47,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="u in project.users">
+        <tr ng-repeat="u in users">
             <td>{{u.username}}</td>
             <td ng-if="u.username==project.creator.username">Создатель</td>
             <td ng-if="u.username!=project.creator.username">Пользователь</td>
@@ -79,7 +79,7 @@
                            ng-model="newUser.username" id="newUser">
                 </div>
                 <div>
-                    <button class="btn btn-primary" type="submit">Создать</button>
+                    <button class="btn btn-primary" type="submit">Добавить</button>
                 </div>
             </div>
         </form>
